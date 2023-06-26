@@ -1,4 +1,3 @@
-// chateauSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { supabase_customer } from "../supabase/supabase-customer";
 

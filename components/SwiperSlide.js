@@ -28,24 +28,26 @@ export default function SwiperSlide() {
 
   return (
     <Swiper
-      style={{ height: "100%" }}
-      showsButtons={true}
-      centeredSlides={true}
-      showsPagination={false}
-      loop={true}
-      autoplay={true}
-      autoplayTimeout={10}
-      nextButton={<Icon name="chevron-forward" size={28} color="#fff" />}
-      prevButton={<Icon name="chevron-back" size={28} color="#fff" />}
-    >
-      {SliderData.map(({ img }, key) => (
+    style={{ height: "100%" }}
+    showsButtons={true}
+    centeredSlides={true}
+    showsPagination={false}
+    loop={true}
+    autoplay={true}
+    autoplayTimeout={10}
+    nextButton={<Icon name="chevron-forward" size={28} color="#fff" />}
+    prevButton={<Icon name="chevron-back" size={28} color="#fff" />}
+  >
+    {SliderData.map(({ img }, key) => (
+      <View key={key} style={{ padding: 10 }}>
         <Image
-          key={key}
-          className="rounded-lg h-full w-full"
+          className="rounded-3xl h-full w-full"
           source={img}
           style={{ resizeMode: "cover" }}
         />
-      ))}
-    </Swiper>
+      </View>
+    ))}
+  </Swiper>
+  
   );
 }

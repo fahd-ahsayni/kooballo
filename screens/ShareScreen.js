@@ -96,7 +96,7 @@ export default function ShareScreen() {
               the hassle of purchasing and carrying heavy water bottles.
             </Text>
 
-            <View className="w-full justify-center items-center mt-8">
+            <View className="justify-center mt-8">
               <TouchableOpacity
                 onPress={onShare}
                 className="w-full"

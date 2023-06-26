@@ -8,6 +8,9 @@ import AddNewTankScreen from "./chateau/AddNewTankScreen";
 import EditInforamtionsTank from "./chateau/EditInforamtionsTank";
 import Success from "../components/Success";
 import OrdersScreen from "./OrdersScreen";
+import CreateNewOrder from "./CreateNewOrder";
+import ProfileScreen from "./ProfileScreen";
+import EditProfile from "./EditProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +61,21 @@ export default function FormStack() {
         options={{ headerShown: false }}
         name="orders"
         component={OrdersScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="create new order"
+        component={CreateNewOrder}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="profile"
+        component={ProfileScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="edit profile"
+        component={EditProfile}
       />
     </Stack.Navigator>
   );

@@ -112,8 +112,8 @@ export default function Avatar() {
       return false;
     }
 
-    if (!litres) {
-      showError("Litres field is required", "litres");
+    if (isNaN(litres) || Number(litres) <= 100) {
+      showError("Litres must be a number greater than 100", "litres");
       return false;
     }
 
@@ -443,7 +443,7 @@ export default function Avatar() {
                       fontFamily: "poppins-semibold",
                     }}
                   >
-                    Add Your Chateau
+                    {loading ? "Please Wait ..." :"Add Your Chateau"}
                   </Text>
 
                   <View

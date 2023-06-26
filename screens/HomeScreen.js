@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { Skeleton, Text } from "native-base";
 
@@ -51,92 +51,131 @@ function HomeScreen() {
     handleAuthStateChange();
   }, []);
 
-  useEffect(() => {
-    if (session) {
-      dispatch(fetchProfile(session?.user.id));
-    }
-  }, [dispatch, session]);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (session) {
+        dispatch(fetchProfile(session?.user.id));
+      }
+    }, [dispatch, session])
+  );
 
   return (
     <ScrollView
       contentContainerStyle={{ justifyContent: "center", flex: 1 }}
       className="bg-gray-50 pt-8"
     >
+      <View
+        style={{
+          paddingHorizontal: 24,
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => navigation.navigate("profile")}
+        >
+          <Image
+            source={{
+              uri: profileData?.avatar_url,
+            }}
+            style={{ width: 52, aspectRatio: 1, borderRadius: 52 }}
+            resizeMode="cover"
+            className="mr-2.5"
+          />
+        </TouchableOpacity>
+        <View style={{ flex: 1 }}>
+          {profileData ? (
+            <>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "600",
+                  marginBottom: 3,
+                  color: Colors.text,
+                  fontFamily: "poppins-semibold",
+                }}
+                numberOfLines={1}
+              >
+                {profileData?.full_name}
+              </Text>
+              <Text
+                style={{
+                  color: "#333",
+                  opacity: 0.75,
+                  fontFamily: "poppins-regular",
+                }}
+                numberOfLines={1}
+              >
+                Solde : {profileData?.solde} Dhs
+              </Text>
+            </>
+          ) : (
+            <>
+              <Skeleton h="5" rounded="md" startColor="coolGray.200" />
+              <Skeleton h="3" mt={3} rounded="md" startColor="coolGray.100" />
+            </>
+          )}
+        </View>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate("profile")}
+          style={{
+            width: 42,
+            aspectRatio: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 52,
+            borderWidth: 1,
+            borderColor: Colors.primary,
+          }}
+        >
+          <Icon name="qr-code-outline" size={20} color={Colors.primary} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate("notifications")}
+          style={{
+            width: 42,
+            aspectRatio: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 52,
+            borderWidth: 1,
+            borderColor: Colors.darkText,
+          }}
+        >
+          <Icon name="notifications" size={20} color={Colors.darkText} />
+        </TouchableOpacity>
+      </View>
       <SafeAreaView
         className="bg-gray-50"
         style={{ paddingVertical: 24, gap: 24 }}
       >
         <View
           style={{
-            paddingHorizontal: 24,
             flexDirection: "row",
             alignItems: "center",
-            gap: 8,
+            justifyContent: "space-between",
           }}
         >
-          <Image
-            source={{
-              uri: "https://images.unsplash.com/photo-1496345875659-11f7dd282d1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
-            }}
-            style={{ width: 52, aspectRatio: 1, borderRadius: 52 }}
-            resizeMode="cover"
-            className="mr-2.5"
-          />
-          <View style={{ flex: 1 }}>
-            {profileData ? (
-              <>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "600",
-                    marginBottom: 3,
-                    color: Colors.text,
-                    fontFamily: "poppins-semibold",
-                  }}
-                  numberOfLines={1}
-                >
-                  Hi, {profileData?.full_name}
-                </Text>
-                <Text
-                  style={{
-                    color: "#333",
-                    opacity: 0.75,
-                    fontFamily: "poppins-regular",
-                  }}
-                  numberOfLines={1}
-                >
-                  Your Solde : {profileData?.solde} Dhs
-                </Text>
-              </>
-            ) : (
-              <>
-                <Skeleton h="5" rounded="md" startColor="coolGray.200" />
-                <Skeleton h="3" mt={3} rounded="md" startColor="coolGray.100" />
-              </>
-            )}
-          </View>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate("notifications")}
+          <Text
             style={{
-              width: 52,
-              aspectRatio: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 52,
-              borderWidth: 1,
-              borderColor: Colors.primary,
+              fontSize: 20,
+              fontFamily: "poppins-semibold",
+              color: Colors.text,
             }}
+            className="px-6 mt-2.5 -mb-2.5"
           >
-            <Icon name="notifications" size={24} color={Colors.primary} />
-          </TouchableOpacity>
+            Welcome to Kooballo
+          </Text>
         </View>
 
         <View
           style={{
             height: height / 4.3,
           }}
-          className="mb-2.5 px-6"
+          className="mb-2.5 px-2"
         >
           <SwiperSlide />
         </View>
@@ -154,7 +193,7 @@ function HomeScreen() {
               fontFamily: "poppins-semibold",
               color: Colors.text,
             }}
-            className="px-6"
+            className="px-6 -mb-2.5"
           >
             Menu
           </Text>
@@ -236,6 +275,7 @@ function HomeScreen() {
             }}
           >
             <Text
+              onPress={() => navigation.navigate("create new order")}
               style={{
                 fontSize: 16,
                 fontWeight: "600",

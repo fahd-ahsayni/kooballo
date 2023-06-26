@@ -27,7 +27,7 @@ export default function TanksScreen() {
 
   useEffect(() => {
     if (loading === "idle") {
-      dispatch(fetchChateau(profileData.id));
+      dispatch(fetchChateau(profileData?.id));
     }
   }, [dispatch]);
 
@@ -57,47 +57,56 @@ export default function TanksScreen() {
 
     return (
       <TouchableOpacity
-      onPress={() => navigation.navigate("edit the tank", { id: chateau.id })}
-      className="flex-row border border-gray-200 p-3 space-x-3 mb-4 rounded-md"
-    >
-      <View className="relative w-28 h-24">
-        {isLoading && (
-          <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center' }}>
-            <Spinner size="lg" color={Colors.primary} />
-          </View>
-        )}
-        <Image
-          source={{ uri: chateau.chateau_profile }}
-          style={{ resizeMode: "cover" }}
-          onLoadStart={() => setIsLoading(true)}
-          onLoadEnd={() => setIsLoading(false)}
-          className="absolute w-full h-full rounded"
-        />
-      </View>
-      <VStack flex={1} space={1}>
-        <Text style={{ fontFamily: "poppins-semibold" }}>{chateau.name}</Text>
-        <Text style={{ fontFamily: "poppins-regular" }} color="gray.500">
-          {chateau.city}
-        </Text>
-        <Text style={{ fontFamily: "poppins-regular" }} color="gray.500">
-          {chateau.litres} L
-        </Text>
-      </VStack>
-      <TouchableOpacity
-        className="justify-center items-center"
-        onPress={handleDeleteChateau}
+        onPress={() => navigation.navigate("edit the tank", { id: chateau.id })}
+        className="flex-row z-10 border bg-white border-gray-200 p-3 space-x-3 mb-4 rounded-md"
       >
-        <View className="bg-rose-500 p-2.5 rounded-full">
-          <Icon name="trash-outline" color="#fff" size={22} />
+        <View className="relative w-28 h-24">
+          {isLoading && (
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Spinner size="lg" color={Colors.primary} />
+            </View>
+          )}
+          <Image
+            source={{ uri: chateau.chateau_profile }}
+            style={{ resizeMode: "cover" }}
+            onLoadStart={() => setIsLoading(true)}
+            onLoadEnd={() => setIsLoading(false)}
+            className="absolute w-full h-full rounded"
+          />
         </View>
+        <VStack flex={1} space={1}>
+          <Text style={{ fontFamily: "poppins-semibold" }}>{chateau.name}</Text>
+          <Text style={{ fontFamily: "poppins-regular" }} color="gray.500">
+            {chateau.city}
+          </Text>
+          <Text style={{ fontFamily: "poppins-regular" }} color="gray.500">
+            {chateau.litres} L
+          </Text>
+        </VStack>
+        <TouchableOpacity
+          className="justify-center items-center"
+          onPress={handleDeleteChateau}
+        >
+          <View className="bg-rose-500 p-2.5 rounded-full">
+            <Icon name="trash-outline" color="#fff" size={22} />
+          </View>
+        </TouchableOpacity>
       </TouchableOpacity>
-    </TouchableOpacity>
-  );
-};
-
+    );
+  };
 
   return (
-    <SafeAreaView className="relative justify-start pt-16 flex-1 h-full bg-white">
+    <SafeAreaView className="relative bg-gray-50 z-0 justify-start pt-16 flex-1 h-full">
       <View className="h-20 relative w-full">
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -174,14 +183,6 @@ export default function TanksScreen() {
         >
           <Icon name="add" size={35} color="white" />
         </TouchableOpacity>
-      </View>
-
-      <View className="items-center">
-        <Image
-          source={Tank}
-          resizeMode="contain"
-          className="w-64 h-64 absolute -z-20 bottom-6 opacity-10"
-        />
       </View>
     </SafeAreaView>
   );

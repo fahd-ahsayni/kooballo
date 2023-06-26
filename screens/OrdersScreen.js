@@ -14,6 +14,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Colors from "../constants/Colors";
 import Spacing from "../constants/Spacing";
 import { useNavigation } from "@react-navigation/native";
+import { supabase_customer } from "../supabase/supabase-customer";
 
 export default function OrdersScreen() {
   const [filteredOrders, setFilteredOrders] = useState([]);
@@ -30,12 +31,16 @@ export default function OrdersScreen() {
 
   useEffect(() => {
     dispatch(fetchOrders(profileData?.id));
-  }, [dispatch, profileData?.id]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    setFilteredOrders(ordersData);
+  }, [ordersData]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     dispatch(fetchOrders(profileData?.id)).then(() => setRefreshing(false));
-  }, [dispatch, profileData?.id]);
+  }, [dispatch]);
 
   const showAllOrders = () => {
     setButtonLoading(true);
@@ -72,6 +77,20 @@ export default function OrdersScreen() {
     );
   }
 
+  const deleteOrder = async (orderId) => {
+    try {
+      await supabase_customer
+        .from("orders")
+        .delete()
+        .match({ id: orderId });
+      // Refetch orders after delete
+      dispatch(fetchOrders(profileData?.id));
+    } catch (error) {
+      alert(`An error occurred: ${error}`);
+    }
+  };
+  
+
   return (
     <SafeAreaView className="flex-1 pt-8 bg-gray-50">
       <View className="h-20 relative w-full">
@@ -91,105 +110,107 @@ export default function OrdersScreen() {
           <Icon name="arrow-back" size={24} color={Colors.primary} />
         </TouchableOpacity>
       </View>
-      <Box p={2.5} pb={4} className="pt-8">
-        <VStack className="flex-row items-center justify-evenly mb-8">
-          <Button
-            style={
-              selectedButton === "all"
-                ? { backgroundColor: Colors.primary, borderWidth: 0 }
-                : {
-                    backgroundColor: "white",
-                    borderWidth: 1,
-                    borderColor: "#e2e8f0",
-                  }
-            }
-            _text={
-              selectedButton === "all"
-                ? {
-                    color: "#fff",
-                    fontWeight: "bold",
-                  }
-                : {
-                    color: "#0ea5e9",
-                    fontWeight: "bold",
-                  }
-            }
-            onPress={showAllOrders}
-            isLoading={buttonLoading}
-            loadingText="Loading"
-            className="rounded-full px-6"
-          >
-            All Orders
-          </Button>
-          <Button
-            style={
-              selectedButton === "waiting"
-                ? { backgroundColor: "#fbbf24", borderWidth: 0 }
-                : {
-                    backgroundColor: "white",
-                    borderWidth: 1,
-                    borderColor: "#e2e8f0",
-                  }
-            }
-            _text={
-              selectedButton === "waiting"
-                ? {
-                    color: "#fff",
-                    fontWeight: "bold",
-                  }
-                : {
-                    color: "#fbbf24",
-                    fontWeight: "bold",
-                  }
-            }
-            onPress={showWaitingOrders}
-            isLoading={buttonLoading}
-            loadingText="Loading"
-            className="rounded-full px-6"
-          >
-            Waiting
-          </Button>
-          <Button
-            style={
-              selectedButton === "completed"
-                ? { backgroundColor: "#16a34a", borderWidth: 0 }
-                : {
-                    backgroundColor: "white",
-                    borderWidth: 1,
-                    borderColor: "#e2e8f0",
-                  }
-            }
-            _text={
-              selectedButton === "completed"
-                ? {
-                    color: "#fff",
-                    fontWeight: "bold",
-                  }
-                : {
-                    color: "#16a34a",
-                    fontWeight: "bold",
-                  }
-            }
-            onPress={showCompletedOrders}
-            isLoading={buttonLoading}
-            loadingText="Loading"
-            className="rounded-full px-6"
-          >
-            Completed
-          </Button>
-        </VStack>
-        <FlatList
-          data={filteredOrders}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <CardOrder key={item.id} {...item} />}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      <VStack className="flex-row items-center justify-evenly py-8">
+        <Button
+          style={
+            selectedButton === "all"
+              ? { backgroundColor: Colors.primary, borderWidth: 0 }
+              : {
+                  backgroundColor: "white",
+                  borderWidth: 1,
+                  borderColor: "#e2e8f0",
+                }
           }
-        />
-      </Box>
+          _text={
+            selectedButton === "all"
+              ? {
+                  color: "#fff",
+                  fontWeight: "bold",
+                }
+              : {
+                  color: "#0ea5e9",
+                  fontWeight: "bold",
+                }
+          }
+          onPress={showAllOrders}
+          isLoading={buttonLoading}
+          loadingText="Loading"
+          className="rounded-full px-6"
+        >
+          All Orders
+        </Button>
+        <Button
+          style={
+            selectedButton === "waiting"
+              ? { backgroundColor: "#fbbf24", borderWidth: 0 }
+              : {
+                  backgroundColor: "white",
+                  borderWidth: 1,
+                  borderColor: "#e2e8f0",
+                }
+          }
+          _text={
+            selectedButton === "waiting"
+              ? {
+                  color: "#fff",
+                  fontWeight: "bold",
+                }
+              : {
+                  color: "#fbbf24",
+                  fontWeight: "bold",
+                }
+          }
+          onPress={showWaitingOrders}
+          isLoading={buttonLoading}
+          loadingText="Loading"
+          className="rounded-full px-6"
+        >
+          Waiting
+        </Button>
+        <Button
+          style={
+            selectedButton === "completed"
+              ? { backgroundColor: "#16a34a", borderWidth: 0 }
+              : {
+                  backgroundColor: "white",
+                  borderWidth: 1,
+                  borderColor: "#e2e8f0",
+                }
+          }
+          _text={
+            selectedButton === "completed"
+              ? {
+                  color: "#fff",
+                  fontWeight: "bold",
+                }
+              : {
+                  color: "#16a34a",
+                  fontWeight: "bold",
+                }
+          }
+          onPress={showCompletedOrders}
+          isLoading={buttonLoading}
+          loadingText="Loading"
+          className="rounded-full px-6"
+        >
+          Completed
+        </Button>
+      </VStack>
+      <FlatList
+        className="px-5"
+        data={filteredOrders}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <CardOrder key={item.id} {...item} onDelete={deleteOrder} />
+        )}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
+
       <View className="absolute bottom-5 right-5">
         <TouchableOpacity
-          onPress={() => navigation.navigate("add new tank")}
+          onPress={() => navigation.navigate("create new order")}
           style={{
             width: 68,
             aspectRatio: 1,
