@@ -20,6 +20,7 @@ import { dataBottomCards, dataHeaderCards } from "../data";
 import Colors from "../constants/Colors";
 import { fetchProfile } from "../redux/profileSlice";
 import Spacing from "../constants/Spacing";
+import { setProfileUrl } from "../redux/mySlice";
 
 const { height } = Dimensions.get("window");
 
@@ -56,6 +57,7 @@ function HomeScreen() {
       if (session) {
         dispatch(fetchProfile(session?.user.id));
       }
+      dispatch(setProfileUrl(profileData?.avatar_url))
     }, [dispatch, session])
   );
 

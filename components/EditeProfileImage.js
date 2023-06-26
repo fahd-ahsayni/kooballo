@@ -1,46 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { View, Alert, Image,} from "react-native";
+import { View, Alert, Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { supabase_customer } from "../supabase/supabase-customer";
 import { Dimensions } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { setProfileUrl } from "../redux/mySlice";
 import { TouchableOpacity } from "react-native";
 
 const { height } = Dimensions.get("window");
 
-export default function Avatar({ url, name, id }) {
+export default function EditProfileImage({ id }) {
   const [uploading, setUploading] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState(url);
+  const [avatarUrl, setAvatarUrl] = useState();
   const [photo, setPhoto] = useState(null);
-
-  const dispatch = useDispatch();
 
   const defaultImage = useSelector((state) => state.mySlice.profileUrl);
 
   const avatarSize = { height: height / 5, width: height / 5 };
-
-  useEffect(() => {
-    if (avatarUrl) downloadImage(avatarUrl);
-  }, [avatarUrl]);
-
-  const downloadImage = async (url) => {
-    try {
-      const { data, error } = await supabase_customer.storage
-        .from("avatars")
-        .download(url);
-      if (error) {
-        throw error;
-      }
-
-      const urlObject = URL.createObjectURL(data);
-      setAvatarUrl(urlObject);
-    } catch (error) {
-      console.log("Error downloading image: ", error.message);
-    } finally {
-      setUploading(false);
-    }
-  };
 
   const uploadAvatar = async (photo) => {
     const filePath = `${id}/profile.jpg`;
@@ -48,10 +23,6 @@ export default function Avatar({ url, name, id }) {
     await supabase_customer.storage
       .from("avatars")
       .upload(filePath, photo, { contentType: "image/jpeg" });
-
-    const imageUrl = `https://xnhwcsmrleizinqhdbdy.supabase.co/storage/v1/object/public/avatars/${filePath}`;
-
-    dispatch(setProfileUrl(imageUrl));
   };
 
   const handleImagePicker = async () => {
@@ -95,29 +66,14 @@ export default function Avatar({ url, name, id }) {
 
   return (
     <View className="w-full justify-center items-center pb-8">
-      {avatarUrl ? (
-        <TouchableOpacity onPress={handleImagePicker}>
-          <Image
-            source={{ uri: avatarUrl }}
-            accessibilityLabel="Avatar"
-            style={avatarSize}
-            className="rounded-full"
-          />
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity onPress={handleImagePicker}>
-          <Image
-            onPress={handleImagePicker}
-            source={{ uri: defaultImage }}
-            style={avatarSize}
-            accessibilityLabel="Avatar"
-            resizeMode="cover"
-            className="rounded-full"
-          />
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity onPress={handleImagePicker}>
+        <Image
+          source={{ uri: defaultImage }}
+          accessibilityLabel="Avatar"
+          style={avatarSize}
+          className="rounded-full"
+        />
+      </TouchableOpacity>
     </View>
   );
 }
-
-

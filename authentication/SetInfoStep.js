@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { View, Text } from "react-native";
 import {
   Button,
   Input,
@@ -15,6 +15,9 @@ import Spacing from "../constants/Spacing";
 import Colors from "../constants/Colors";
 import FontSize from "../constants/FontSize";
 
+import Avatar from "./Avatar";
+import { useSelector } from "react-redux";
+
 export default function SetInfoStep({ session }) {
   const [loading, setLoading] = useState(true);
   const [dataProfile, setDataProfile] = useState(null);
@@ -22,6 +25,8 @@ export default function SetInfoStep({ session }) {
   const [borderError, setBorderError] = useState(false);
   const [fullName, setFullName] = useState(null);
   const [mobile, setMobile] = useState(null);
+
+  const profileUrl = useSelector((state) => state.mySlice.profileUrl);
 
   useEffect(() => {
     if (session) {
@@ -42,7 +47,6 @@ export default function SetInfoStep({ session }) {
   };
 
   // get PROFILE data
-
   const getProfile = async () => {
     setLoading(true);
 
@@ -72,26 +76,24 @@ export default function SetInfoStep({ session }) {
   };
 
   // function updates
-
   const updateProfile = () => {
     if (!fullName || !mobile) {
       setBorderError(true);
       return;
     }
 
+    console.log(profileUrl);
     setLoading(true);
 
     const updates = {
       id: session?.user.id,
       full_name: fullName,
       mobile,
+      avatar_url: profileUrl,
       updated_at: new Date(),
     };
 
-    supabase_customer
-      .from("profiles")
-      .upsert(updates)
-      .then(refreshPage);
+    supabase_customer.from("profiles").upsert(updates).then(refreshPage);
   };
 
   return (
@@ -110,6 +112,9 @@ export default function SetInfoStep({ session }) {
             </Text>
             <Text>{fetchError}</Text>
           </View>
+          <Avatar
+            id={session?.user.id}
+          />
           <Center>
             <VStack space={4} width="100%">
               <FormControl>
@@ -120,7 +125,7 @@ export default function SetInfoStep({ session }) {
                   bg="muted.100"
                   className="py-3 text-base"
                   style={{
-                    fontFamily: "poppins-regular"
+                    fontFamily: "poppins-regular",
                   }}
                   keyboardType="email-address"
                   isReadOnly
@@ -149,7 +154,7 @@ export default function SetInfoStep({ session }) {
                   value={fullName}
                   className="py-3 text-base"
                   style={{
-                    fontFamily: "poppins-regular"
+                    fontFamily: "poppins-regular",
                   }}
                   keyboardType="email-address"
                   onChangeText={(text) => setFullName(text)}
@@ -179,7 +184,7 @@ export default function SetInfoStep({ session }) {
                   keyboardType="phone-pad"
                   className="py-3 text-base"
                   style={{
-                    fontFamily: "poppins-regular"
+                    fontFamily: "poppins-regular",
                   }}
                   value={mobile}
                   onChangeText={(text) => setMobile(text)}

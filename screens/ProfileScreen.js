@@ -7,6 +7,7 @@ import { SafeAreaView, TouchableOpacity, Dimensions } from "react-native";
 import Spacing from "../constants/Spacing";
 import { useNavigation } from "@react-navigation/native";
 
+
 const { height } = Dimensions.get("window");
 
 export default function ProfileScreen() {

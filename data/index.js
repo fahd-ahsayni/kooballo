@@ -23,7 +23,7 @@ export const dataHeaderCards = [
     color: "#0ea5e9",
   },
   {
-    navigate: "Solde",
+    navigate: "solde",
     title: "Solde",
     icon: wallet,
     color: "#0ea5e9",

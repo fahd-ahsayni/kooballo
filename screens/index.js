@@ -11,6 +11,7 @@ import OrdersScreen from "./OrdersScreen";
 import CreateNewOrder from "./CreateNewOrder";
 import ProfileScreen from "./ProfileScreen";
 import EditProfile from "./EditProfile";
+import SoldeScreen from "./SoldeScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -76,6 +77,11 @@ export default function FormStack() {
         options={{ headerShown: false }}
         name="edit profile"
         component={EditProfile}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="solde"
+        component={SoldeScreen}
       />
     </Stack.Navigator>
   );
