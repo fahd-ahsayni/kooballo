@@ -1,12 +1,11 @@
-import { VStack, Box, Avatar, Text, HStack, Center, View } from "native-base";
-import QRCode from "react-native-qrcode-svg";
+import { VStack, Box, Avatar, Text, HStack, View } from "native-base";
 import Colors from "../constants/Colors";
 import { useSelector } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
 import { SafeAreaView, TouchableOpacity, Dimensions } from "react-native";
 import Spacing from "../constants/Spacing";
 import { useNavigation } from "@react-navigation/native";
-
+import QrCode from "../components/QrCode";
 
 const { height } = Dimensions.get("window");
 
@@ -79,20 +78,7 @@ export default function ProfileScreen() {
           </Text>
         </View>
 
-        <Box
-          bg="white"
-          p={4}
-          borderRadius="xl"
-          borderColor="gray.200"
-          borderWidth={2}
-        >
-          <QRCode
-            value={profileData.id.toString()}
-            size={height / 5}
-            backgroundColor="white"
-            color={Colors.primary}
-          />
-        </Box>
+        <QrCode value={profileData.id.toString()} size={height / 5} />
 
         <View className="px-6 w-full mt-2.5">
           <TouchableOpacity
@@ -112,6 +98,7 @@ export default function ProfileScreen() {
                 height: Spacing,
               },
               shadowOpacity: 0.3,
+              shadowColor: Colors.primary,
               shadowRadius: Spacing,
             }}
           >

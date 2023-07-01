@@ -16,6 +16,9 @@ import Spacing from "../constants/Spacing";
 import { useNavigation } from "@react-navigation/native";
 import { supabase_customer } from "../supabase/supabase-customer";
 
+import { t } from "../i18n";
+import { Text } from "react-native";
+
 export default function OrdersScreen() {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -79,17 +82,13 @@ export default function OrdersScreen() {
 
   const deleteOrder = async (orderId) => {
     try {
-      await supabase_customer
-        .from("orders")
-        .delete()
-        .match({ id: orderId });
+      await supabase_customer.from("orders").delete().match({ id: orderId });
       // Refetch orders after delete
       dispatch(fetchOrders(profileData?.id));
     } catch (error) {
       alert(`An error occurred: ${error}`);
     }
   };
-  
 
   return (
     <SafeAreaView className="flex-1 pt-8 bg-gray-50">
@@ -132,12 +131,12 @@ export default function OrdersScreen() {
                   fontWeight: "bold",
                 }
           }
-          onPress={showAllOrders}
+          onPress={showWaitingOrders}
           isLoading={buttonLoading}
           loadingText="Loading"
           className="rounded-full px-6"
         >
-          All Orders
+          All Order
         </Button>
         <Button
           style={

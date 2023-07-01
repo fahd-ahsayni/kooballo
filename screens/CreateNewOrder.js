@@ -25,7 +25,6 @@ import { fetchChateau } from "../redux/chateauSlice";
 import { calculatePrice, generateOrderKey } from "../functions";
 import { supabase_customer } from "../supabase/supabase-customer";
 
-const INVALID_CHATEAU_ID_MESSAGE = "Please choose a chateau";
 const CREATE_ORDER_TEXT = "Create Your Order";
 const PLEASE_WAIT_TEXT = "Please Wait ...";
 
@@ -34,7 +33,6 @@ export default function CreateNewOrder() {
   const navigation = useNavigation();
 
   const [loading, setLoading] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
   const [chateauId, setChateauId] = useState("");
   const [filterData, setFilterData] = useState({});
 
@@ -75,7 +73,7 @@ export default function CreateNewOrder() {
       const orderPrice = calculatePrice(filterData.litres);
 
       if (orderPrice > currentSolde) {
-        alert("Insufficient solde. Please recharge your solde.");
+        navigation.navigate("cancel order")
         setLoading(false);
         return;
       } else {
@@ -149,7 +147,7 @@ export default function CreateNewOrder() {
                   isDisabled={!chateauData}
                   selectedValue={chateauId}
                   w="100%"
-                  style={{ fontFamily: "poppins-semibold" }}
+                  style={{ fontFamily: "poppins-regular" }}
                   accessibilityLabel="Choose Chateau"
                   placeholder={
                     chateauData
@@ -228,44 +226,13 @@ export default function CreateNewOrder() {
               bold
               color="#0ea5e9"
               textAlign="center"
-              onPress={() => navigation.navigate("AddNewChateau")}
+              onPress={() => navigation.navigate("add new tank")}
             >
               Click To Create New Chateau ?
             </Text>
           </VStack>
         </Center>
       </KeyboardAvoidingView>
-      <Modal isOpen={isModalVisible} onClose={() => setModalVisible(false)}>
-        <Modal.Content maxWidth="400px">
-          <Modal.Body>
-            Votre solde est insuffisant pour passer cette commande.
-          </Modal.Body>
-
-          <Modal.Footer>
-            <View className="flex-1">
-              <Button
-                className="mt-2.5 bg-sky-500"
-                _text={{
-                  fontWeight: 600,
-                }}
-                onPress={() => navigation.navigate("Solde")}
-              >
-                Recharge your solde
-              </Button>
-              <Button
-                className="mt-2.5 bg-gray-100"
-                _text={{
-                  color: "gray.600",
-                  fontWeight: 600,
-                }}
-                onPress={() => setModalVisible(false)}
-              >
-                Close
-              </Button>
-            </View>
-          </Modal.Footer>
-        </Modal.Content>
-      </Modal>
     </SafeAreaView>
   );
 }

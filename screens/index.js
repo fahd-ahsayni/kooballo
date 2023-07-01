@@ -11,7 +11,11 @@ import OrdersScreen from "./OrdersScreen";
 import CreateNewOrder from "./CreateNewOrder";
 import ProfileScreen from "./ProfileScreen";
 import EditProfile from "./EditProfile";
-import SoldeScreen from "./SoldeScreen";
+import SoldeScreen from "./solde/SoldeScreen";
+import CancelOrder from "../components/CancelOrder";
+import QrScanner from "./solde/QrScanner";
+import AddSolde from "./solde/AddSolde";
+import WithCash from "./solde/WithCash";
 
 const Stack = createNativeStackNavigator();
 
@@ -82,6 +86,21 @@ export default function FormStack() {
         options={{ headerShown: false }}
         name="solde"
         component={SoldeScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="with cash"
+        component={WithCash}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="add solde"
+        component={AddSolde}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="cancel order"
+        component={CancelOrder}
       />
     </Stack.Navigator>
   );

@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./forms/LoginScreen";
 import RegisterScreen from "./forms/RegisterScreen";
+import ForgotPasswordScreen from "./forms/ForgoatPassword";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,11 @@ export default function FormStack() {
         options={{ headerShown: false }}
         name="register"
         component={RegisterScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="forgoat password"
+        component={ForgotPasswordScreen}
       />
     </Stack.Navigator>
   );

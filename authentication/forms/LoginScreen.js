@@ -6,7 +6,14 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Stack, Input, Button, Box, FormControl } from "native-base";
+import {
+  Stack,
+  Input,
+  Button,
+  Box,
+  FormControl,
+
+} from "native-base";
 
 import Spacing from "../../constants/Spacing";
 import FontSize from "../../constants/FontSize";
@@ -18,7 +25,6 @@ import { supabase_customer } from "../../supabase/supabase-customer";
 import { StatusBar } from "expo-status-bar";
 
 import { t } from "../../i18n";
-
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -64,6 +70,7 @@ const LoginScreen = () => {
               fontFamily: "poppins-bold",
               marginVertical: Spacing * 3,
             }}
+            className="text-center"
           >
             {t("Login.title")}
           </Text>
@@ -76,7 +83,7 @@ const LoginScreen = () => {
               color: Colors.darkText,
             }}
           >
-           {t("Login.subtitle")}
+            {t("Login.subtitle")}
           </Text>
         </View>
 
@@ -89,9 +96,7 @@ const LoginScreen = () => {
             <FormControl isRequired>
               <Stack>
                 <View>
-                  <FormControl.Label>
-                  {t("Login.emailLabel")}
-                  </FormControl.Label>
+                  <FormControl.Label>{t("Login.emailLabel")}</FormControl.Label>
                   <Input
                     type="text"
                     placeholder={t("Login.inputEmailText")}
@@ -124,7 +129,7 @@ const LoginScreen = () => {
 
                 <View className="mt-4">
                   <FormControl.Label>
-                  {t("Login.passwordLabel")}
+                    {t("Login.passwordLabel")}
                   </FormControl.Label>
                   <Input
                     type={show ? "text" : "password"}
@@ -171,7 +176,7 @@ const LoginScreen = () => {
                     value={password}
                   />
                   <FormControl.HelperText>
-                  {t("Login.inputPasswordHelperText")}
+                    {t("Login.inputPasswordHelperText")}
                   </FormControl.HelperText>
                 </View>
               </Stack>
@@ -179,7 +184,7 @@ const LoginScreen = () => {
           </Box>
         </View>
 
-        <View>
+        {/* <TouchableOpacity onPress={() => navigation.navigate("forgoat password")}>
           <Text
             style={{
               fontFamily: "poppins-semibold",
@@ -190,7 +195,7 @@ const LoginScreen = () => {
           >
             {t("Login.forgoatPassword")}
           </Text>
-        </View>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           onPress={signInWithEmail}
@@ -216,7 +221,7 @@ const LoginScreen = () => {
               fontSize: FontSize.medium,
             }}
           >
-            Sign in
+             {t("Login.ButtonSignIn")}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -226,14 +231,14 @@ const LoginScreen = () => {
           }}
         >
           <Text
+            className="text-lg"
             style={{
               fontFamily: "poppins-semibold",
-              color: Colors.text,
+              color: Colors.primary,
               textAlign: "center",
-              fontSize: FontSize.small,
             }}
           >
-            Create new account
+            {t("Login.ButtonCreateAccount")}
           </Text>
         </TouchableOpacity>
       </View>

@@ -152,6 +152,7 @@ export default function Welcome() {
                 height: Spacing,
               },
               shadowOpacity: 0.3,
+              shadowColor: Colors.primary,
               shadowRadius: Spacing,
             }}
           >

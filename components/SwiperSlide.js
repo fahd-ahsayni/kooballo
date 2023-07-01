@@ -1,21 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { View, Dimensions,  ImageBackground, Image } from "react-native";
-import Swiper from "react-native-swiper";
-import Icon from "react-native-vector-icons/Ionicons";
+import React, { useState, useEffect } from 'react';
+import { View, Dimensions, Image } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import { SliderData } from "../data";
 import { Skeleton } from "native-base";
 
-
 const { height } = Dimensions.get("window");
 
-export default function SwiperSlide() {
+const FadeInView = Animatable.createAnimatableComponent(View);
+
+export default function FadeSlider() {
+  const [activeIndex, setActiveIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
+
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prevIndex) =>
+        prevIndex === SliderData.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change images every 5 seconds
+
+    return () => clearInterval(interval);
   }, []);
 
   if (isLoading) {
@@ -27,27 +39,24 @@ export default function SwiperSlide() {
   }
 
   return (
-    <Swiper
-    style={{ height: "100%" }}
-    showsButtons={true}
-    centeredSlides={true}
-    showsPagination={false}
-    loop={true}
-    autoplay={true}
-    autoplayTimeout={10}
-    nextButton={<Icon name="chevron-forward" size={28} color="#fff" />}
-    prevButton={<Icon name="chevron-back" size={28} color="#fff" />}
-  >
-    {SliderData.map(({ img }, key) => (
-      <View key={key} style={{ padding: 10 }}>
-        <Image
-          className="rounded-3xl h-full w-full"
-          source={img}
-          style={{ resizeMode: "cover" }}
-        />
-      </View>
-    ))}
-  </Swiper>
-  
+    <View className="w-full h-full">
+      {SliderData.map(({ img }, index) => (
+        <FadeInView
+          key={index}
+          style={{ padding: 10, position: 'absolute', height: '100%', width: '100%' }}
+          useNativeDriver
+          animation={activeIndex === index ? 'fadeIn' : 'fadeOut'}
+          duration={500}
+          easing="ease-out"
+          iterationCount={1}
+        >
+          <Image
+            source={img}
+            style={{ resizeMode: "cover", height: '100%', width: '100%' }}
+            className="rounded-lg"
+          />
+        </FadeInView>
+      ))}
+    </View>
   );
 }

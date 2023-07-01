@@ -9,6 +9,8 @@ import ImageSlide1 from "../assets/swiper/01.png";
 import ImageSlide2 from "../assets/swiper/02.png";
 import ImageSlide3 from "../assets/swiper/03.png";
 
+import { t } from "../i18n";
+
 export const dataHeaderCards = [
   {
     navigate: "tanks",
@@ -32,7 +34,7 @@ export const dataHeaderCards = [
 
 export const dataBottomCards = [
   {
-    title: "Logout",
+    title: "LogOut",
     icon: logout,
     color: "#e11d48",
   },

@@ -5,7 +5,7 @@ import Colors from "../constants/Colors";
 
 export default function CardApps({ icon, title, text, color }) {
   return (
-    <TouchableOpacity className="flex-row rounded-md mb-2.5 p-4 w-full bg-white border border-gray-100">
+    <TouchableOpacity className="flex-row rounded-md mb-2.5 p-4 w-full bg-white border border-gray-200">
       <View
         style={{
           backgroundColor: color,

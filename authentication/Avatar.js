@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { View, Alert, Image,} from "react-native";
+import { View, Alert, Image, Text } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { supabase_customer } from "../supabase/supabase-customer";
 import { Dimensions } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setProfileUrl } from "../redux/mySlice";
 import { TouchableOpacity } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import Colors from "../constants/Colors";
+
+import {t} from "../i18n"
 
 const { height } = Dimensions.get("window");
 
@@ -43,8 +47,26 @@ export default function Avatar({ url, name, id }) {
   };
 
   const uploadAvatar = async (photo) => {
-    const filePath = `${id}/profile.jpg`;
+    const filePath = `${id}/${new Date()}.jpg`;
 
+    // Check if a file already exists at the filePath
+    const { data: existingFile } = await supabase_customer.storage
+      .from("avatars")
+      .getPublicUrl(filePath);
+
+    // If a file exists, delete it
+    if (existingFile) {
+      const { error: deleteError } = await supabase_customer.storage
+        .from("avatars")
+        .remove([filePath]);
+
+      if (deleteError) {
+        console.log("Error deleting file: ", deleteError.message);
+        return;
+      }
+    }
+
+    // Upload the new file
     await supabase_customer.storage
       .from("avatars")
       .upload(filePath, photo, { contentType: "image/jpeg" });
@@ -93,6 +115,8 @@ export default function Avatar({ url, name, id }) {
     }
   };
 
+  const editPictureText= t("UpdateProfile.EditPictureText")
+
   return (
     <View className="w-full justify-center items-center pb-8">
       {avatarUrl ? (
@@ -116,8 +140,19 @@ export default function Avatar({ url, name, id }) {
           />
         </TouchableOpacity>
       )}
+      <View className="flex-row bg-sky-100 px-4 py-1.5 rounded mt-2.5 items-center">
+        <Icon
+          name="information-circle-outline"
+          size={15}
+          color={Colors.primary}
+        />
+        <Text
+          className="text-sky-500 ml-2.5"
+          style={{ fontFamily: "poppins-regular" }}
+        >
+          {editPictureText}
+        </Text>
+      </View>
     </View>
   );
 }
-
-

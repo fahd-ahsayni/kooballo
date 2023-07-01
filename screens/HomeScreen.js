@@ -22,6 +22,11 @@ import { fetchProfile } from "../redux/profileSlice";
 import Spacing from "../constants/Spacing";
 import { setProfileUrl } from "../redux/mySlice";
 
+import Qr from "../assets/icons/qr.png";
+import NotificationIcon from "../assets/icons/notification-bell.png";
+
+import { t } from "../i18n";
+
 const { height } = Dimensions.get("window");
 
 function HomeScreen() {
@@ -57,9 +62,27 @@ function HomeScreen() {
       if (session) {
         dispatch(fetchProfile(session?.user.id));
       }
-      dispatch(setProfileUrl(profileData?.avatar_url))
+      dispatch(setProfileUrl(profileData?.avatar_url));
     }, [dispatch, session])
   );
+
+  const contentText = {
+    WelcomeToKooballo: t("Home.WelcomeToKooballo"),
+    Menu: t("Home.Menu"),
+    Solde: t("Home.Solde"),
+    DH: t("Home.DH"),
+    ButtonCreateNewOrder: t("Home.ButtonCreateNewOrder"),
+  };
+
+  const MenuTop = dataHeaderCards.reduce((acc, item) => {
+    acc[item.title] = t(`Home.${item.title}`);
+    return acc;
+  }, {});
+
+  const MenuBottom = dataBottomCards.reduce((acc, item) => {
+    acc[item.title] = t(`Home.${item.title}`);
+    return acc;
+  }, {});
 
   return (
     <ScrollView
@@ -74,9 +97,7 @@ function HomeScreen() {
           gap: 8,
         }}
       >
-        <TouchableOpacity
-          onPress={() => navigation.navigate("profile")}
-        >
+        <TouchableOpacity onPress={() => navigation.navigate("profile")}>
           <Image
             source={{
               uri: profileData?.avatar_url,
@@ -88,7 +109,7 @@ function HomeScreen() {
         </TouchableOpacity>
         <View style={{ flex: 1 }}>
           {profileData ? (
-            <>
+            <View className="items-start">
               <Text
                 style={{
                   fontSize: 18,
@@ -109,9 +130,9 @@ function HomeScreen() {
                 }}
                 numberOfLines={1}
               >
-                Solde : {profileData?.solde} Dhs
+                {contentText.Solde} : {profileData?.solde} {contentText.DH}
               </Text>
-            </>
+            </View>
           ) : (
             <>
               <Skeleton h="5" rounded="md" startColor="coolGray.200" />
@@ -132,7 +153,7 @@ function HomeScreen() {
             borderColor: Colors.primary,
           }}
         >
-          <Icon name="qr-code-outline" size={20} color={Colors.primary} />
+          <Image source={Qr} resizeMode="center" className="w-5 h-5" />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -144,60 +165,52 @@ function HomeScreen() {
             justifyContent: "center",
             borderRadius: 52,
             borderWidth: 1,
-            borderColor: Colors.darkText,
           }}
+          className="border-amber-400"
         >
-          <Icon name="notifications" size={20} color={Colors.darkText} />
+          <Image
+            source={NotificationIcon}
+            resizeMode="center"
+            className="w-6 h-6"
+          />
         </TouchableOpacity>
       </View>
       <SafeAreaView
         className="bg-gray-50"
         style={{ paddingVertical: 24, gap: 24 }}
       >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
+        <View>
           <Text
             style={{
               fontSize: 20,
               fontFamily: "poppins-semibold",
               color: Colors.text,
             }}
-            className="px-6 mt-2.5 -mb-2.5"
+            className="px-6 mt-2.5 -mb-4 py-2"
           >
-            Welcome to Kooballo
+            {contentText.WelcomeToKooballo}
           </Text>
         </View>
 
         <View
           style={{
-            height: height / 4.3,
+            height: height / 4,
           }}
           className="mb-2.5 px-2"
         >
           <SwiperSlide />
         </View>
 
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
+        <View>
           <Text
             style={{
               fontSize: 20,
               fontFamily: "poppins-semibold",
               color: Colors.text,
             }}
-            className="px-6 -mb-2.5"
+            className="px-6 -mb-4 py-2"
           >
-            Menu
+            {contentText.Menu}
           </Text>
         </View>
 
@@ -209,20 +222,20 @@ function HomeScreen() {
                   item.navigate ? navigation.navigate(item.navigate) : {}
                 }
                 key={key}
-                className="flex border border-gray-200 items-center justify-center w-24 h-24 rounded bg-white"
+                className="flex border border-gray-200 items-center justify-center w-24 h-24 rounded-xl bg-white"
               >
                 <Image
                   source={item.icon}
                   resizeMode="cover"
-                  className="w-10 h-10"
+                  className="w-9 h-9"
                 />
                 <Text
                   style={{ fontFamily: "poppins-semibold" }}
-                  className="mt-2"
-                  fontSize="sm"
-                  color={Colors.primary}
+                  className="mt-2.5"
+                  fontSize="xs"
+                  color={item.color ? item.color : "#cbd5e1"}
                 >
-                  {item.title}
+                  {MenuTop[item.title]}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -237,20 +250,20 @@ function HomeScreen() {
                     : supabase_customer.auth.signOut()
                 }
                 key={key}
-                className="flex border border-gray-200 items-center justify-center w-24 h-24 rounded bg-white"
+                className="flex border border-gray-200 items-center justify-center w-24 h-24 rounded-xl bg-white"
               >
                 <Image
                   source={item.icon}
                   resizeMode="cover"
-                  className="w-10 h-10"
+                  className="w-8 h-8"
                 />
                 <Text
                   style={{ fontFamily: "poppins-semibold" }}
-                  className="mt-1"
-                  fontSize="sm"
+                  className="mt-2.5 text-center"
+                  fontSize="xs"
                   color={item.color ? item.color : "#cbd5e1"}
                 >
-                  {item.title}
+                  {MenuBottom[item.title]}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -259,6 +272,7 @@ function HomeScreen() {
 
         <View className="w-full px-6">
           <TouchableOpacity
+            onPress={() => navigation.navigate("create new order")}
             style={{
               backgroundColor: Colors.primary,
               height: 64,
@@ -268,6 +282,7 @@ function HomeScreen() {
               position: "relative",
               flexDirection: "row",
               padding: 12,
+              shadowColor: Colors.primary,
               shadowOffset: {
                 width: 0,
                 height: Spacing,
@@ -277,7 +292,6 @@ function HomeScreen() {
             }}
           >
             <Text
-              onPress={() => navigation.navigate("create new order")}
               style={{
                 fontSize: 16,
                 fontWeight: "600",
@@ -286,7 +300,7 @@ function HomeScreen() {
                 fontFamily: "poppins-semibold",
               }}
             >
-              Create New Order
+              {contentText.ButtonCreateNewOrder}
             </Text>
 
             <View

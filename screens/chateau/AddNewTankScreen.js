@@ -28,7 +28,7 @@ import { supabase_customer } from "../../supabase/supabase-customer";
 import Colors from "../../constants/Colors";
 import { TouchableOpacity } from "react-native";
 
-export default function Avatar() {
+export default function AddNewTankScreen() {
   const [uploading, setUploading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [cities, setCities] = useState([]);
@@ -44,6 +44,7 @@ export default function Avatar() {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [inputWithError, setInputWithError] = useState("");
+  const [buttonText, setButtonText] = useState("Add Your Chateau");
 
   const navigation = useNavigation();
   const userID = useSelector((state) => state.profiles?.id);
@@ -126,10 +127,12 @@ export default function Avatar() {
   };
 
   const handleAddChateau = async () => {
+    setButtonText("Please Wait ...");  // Change button text when clicked
     setLoading(true);
 
     if (!validateInputs()) {
       setLoading(false);
+      setButtonText("Add Your Chateau");  // Change back to original text if validation fails
       return;
     }
 
@@ -175,6 +178,7 @@ export default function Avatar() {
       Alert.alert("Error", err.message);
     } finally {
       setLoading(false);
+      setButtonText("Add Your Chateau");  // Change back to original text once processing is done
       setTimeout(() => {
         navigation.navigate("success", { text: "Chateau update successfully" });
       }, 100);

@@ -18,6 +18,8 @@ import FontSize from "../constants/FontSize";
 import Avatar from "./Avatar";
 import { useSelector } from "react-redux";
 
+import {t} from "../i18n"
+
 export default function SetInfoStep({ session }) {
   const [loading, setLoading] = useState(true);
   const [dataProfile, setDataProfile] = useState(null);
@@ -96,6 +98,16 @@ export default function SetInfoStep({ session }) {
     supabase_customer.from("profiles").upsert(updates).then(refreshPage);
   };
 
+  const content= {
+    title: t("InfoStep.Title"),
+    EditPictureText: t("UpdateProfile.EditPictureText"),
+    emailLabel: t("Register.emailLabel"),
+    fullNameLabel: t("UpdateProfile.FullNameLabel"),
+    mobileLabel: t("UpdateProfile.MobileLabel"),
+    ValidationButton: t("InfoStep.ValidationButton"),
+    
+  }
+
   return (
     <>
       {loading ? (
@@ -107,23 +119,21 @@ export default function SetInfoStep({ session }) {
       ) : (
         <View className="px-6 flex-1 justify-center bg-white">
           <View>
-            <Text className="text-2xl font-bold text-gray-800">
-              Complete All Required Fields to Proceed !
+            <Text className="text-2xl text-center font-bold text-gray-800">
+               {content.title}
             </Text>
             <Text>{fetchError}</Text>
           </View>
-          <Avatar
-            id={session?.user.id}
-          />
+          <Avatar id={session?.user.id} />
           <Center>
             <VStack space={4} width="100%">
               <FormControl>
-                <FormControl.Label>Email</FormControl.Label>
+                <FormControl.Label>{content.emailLabel}</FormControl.Label>
                 <Input
                   placeholder="Email"
                   value={session?.user?.email}
                   bg="muted.100"
-                  className="py-3 text-base"
+                  className="py-2.5"
                   style={{
                     fontFamily: "poppins-regular",
                   }}
@@ -149,10 +159,10 @@ export default function SetInfoStep({ session }) {
               </FormControl>
 
               <FormControl>
-                <FormControl.Label>Full Name</FormControl.Label>
+                <FormControl.Label>{content.fullNameLabel}</FormControl.Label>
                 <Input
                   value={fullName}
-                  className="py-3 text-base"
+                  className="py-2.5"
                   style={{
                     fontFamily: "poppins-regular",
                   }}
@@ -178,11 +188,11 @@ export default function SetInfoStep({ session }) {
               </FormControl>
 
               <FormControl>
-                <FormControl.Label>Mobile</FormControl.Label>
+                <FormControl.Label>{content.mobileLabel}</FormControl.Label>
                 <Input
                   label="Mobile"
                   keyboardType="phone-pad"
-                  className="py-3 text-base"
+                  className="py-2.5"
                   style={{
                     fontFamily: "poppins-regular",
                   }}
@@ -231,7 +241,7 @@ export default function SetInfoStep({ session }) {
                     fontSize: FontSize.medium,
                   }}
                 >
-                  Update Profile
+                  {content.ValidationButton}
                 </Text>
               </Button>
             </VStack>

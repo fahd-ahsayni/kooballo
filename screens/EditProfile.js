@@ -8,8 +8,7 @@ import { TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Colors from "../constants/Colors";
 import { Text } from "react-native";
-import Avatar from "../authentication/Avatar";
-import { useEffect } from "react";
+
 import EditProfileImage from "../components/EditeProfileImage";
 
 export default function EditProfile() {
@@ -36,9 +35,9 @@ export default function EditProfile() {
   return (
     <SafeAreaView className="bg-gray-50 justify-center flex-1 px-4">
       <Box p={4} borderRadius="xl" w="100%">
-        <EditProfileImage id={profileData.id} />
+        <EditProfileImage id={profileData.id} name={profileData.full_name} />
         <FormControl className="mb-4">
-          <FormControl.Label>Chateau name</FormControl.Label>
+          <FormControl.Label>Full name</FormControl.Label>
           <Input
             className="py-3"
             placeholder="Full Name"
@@ -49,7 +48,7 @@ export default function EditProfile() {
           />
         </FormControl>
         <FormControl>
-          <FormControl.Label>Chateau name</FormControl.Label>
+          <FormControl.Label>Mobile</FormControl.Label>
           <Input
             className="py-3"
             placeholder="Mobile"
