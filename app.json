@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.fahdahsayni.kooballo"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c64431af-cd9e-4c5e-9e43-8afdea346bb9"
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormControl, Input, Button, VStack, Text, Box } from "native-base";
 import { View, SafeAreaView, StatusBar } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -9,29 +9,49 @@ import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
 import { TouchableOpacity } from "react-native";
 import { t } from "../../i18n";
-import { useFormValidationState, useInputState } from "../../hooks";
+import { useInputState } from "../../hooks";
 
 export default function RegisterScreen() {
   const [email, handleEmailChange] = useInputState("");
   const [password, handlePasswordChange] = useInputState("");
-  const [show, setShow] = React.useState(false);
-  const [message, setMessage] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
+  const [show, setShow] = useState(false);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const contentText = {
-    e: t("Login.EmailError"),
     p: t("Login.PasswordError"),
+    e: t("Register.emailValidation"),
+    ErrorMessage: t("Register.ErrorMessage"),
+    confirmation: t("Register.confirmationMessage"),
+    default: t("Register.defaultMessage")
   };
-
-  const { emailError, passwordError, validateForm } = useFormValidationState(
-    contentText.e,
-    contentText.p
-  );
 
   const navigation = useNavigation();
 
+  const validateForm = () => {
+    let isValid = true;
+
+    if (email.trim() === "" || !email.includes("@")) {
+      setEmailError(contentText.e);
+      isValid = false;
+    } else {
+      setEmailError("");
+    }
+
+    if (password.trim() === "" || password.length < 8) {
+      setPasswordError(contentText.p);
+      isValid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    return isValid;
+  };
+
   const handleSignUp = async () => {
-    if (validateForm(email, password)) {
+    if (validateForm()) {
       setLoading(true);
       setMessage("");
 
@@ -44,7 +64,7 @@ export default function RegisterScreen() {
         if (error) {
           handleError(error);
         } else {
-          setMessage(t("Register.confirmationMessage"));
+          setMessage("Check your email for a confirmation link.");
         }
       } catch (error) {
         handleError(error);
@@ -90,7 +110,7 @@ export default function RegisterScreen() {
                 style={{ fontFamily: "poppins-semibold" }}
                 className="font-semibold text-[12px] text-slate-700 ml-2"
               >
-                {t("Register.defaultMessage")}
+                {contentText.default}
               </Text>
             </View>
           ) : message == "Check your email for a confirmation link." ? (
@@ -104,7 +124,7 @@ export default function RegisterScreen() {
                 style={{ fontFamily: "poppins-semibold" }}
                 className="font-semibold text-[12px] text-green-700 ml-2"
               >
-                {message}
+                {contentText.confirmation}
               </Text>
             </View>
           ) : (
@@ -114,7 +134,7 @@ export default function RegisterScreen() {
                 style={{ fontFamily: "poppins-semibold" }}
                 className="font-semibold text-[12px] text-red-700 ml-2"
               >
-                {message}
+                {contentText.ErrorMessage}
               </Text>
             </View>
           )}

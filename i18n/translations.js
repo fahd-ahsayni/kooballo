@@ -34,6 +34,7 @@ export const translations = {
       buttonSignUp: "Sign Up",
       AlreadyHaveAnAccount: "Already Have an Account?",
       buttonSignIn: "Log In",
+      ErrorMessage: "Your account creation has failed"
     },
     Home: {
       WelcomeToKooballo: "Kooballo Kooballo Ma3andek Matssallo",
@@ -163,6 +164,7 @@ export const translations = {
       buttonSignUp: "سجل حسابك الآن",
       AlreadyHaveAnAccount: "هل لديك حساب بالفعل؟",
       buttonSignIn: "تسجيل الدخول",
+      ErrorMessage: "لقد تعذر انشاء حسابك"
     },
     Home: {
       WelcomeToKooballo: "كوبالو معندك متسالو",
@@ -295,6 +297,7 @@ export const translations = {
       buttonSignUp: "S'inscrire",
       AlreadyHaveAnAccount: "Vous avez déjà un compte?",
       buttonSignIn: "Se connecter",
+      ErrorMessage: "La création de votre compte a échoué"
     },
     Home: {
       WelcomeToKooballo: "Kooballo Ma3andek Matssallo",

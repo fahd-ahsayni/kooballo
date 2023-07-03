@@ -123,23 +123,16 @@ export default function OrdersScreen() {
                   borderColor: "#e2e8f0",
                 }
           }
-          _text={
-            selectedButton === "all"
-              ? {
-                  color: "#fff",
-                  fontWeight: "bold",
-                }
-              : {
-                  color: "#0ea5e9",
-                  fontWeight: "bold",
-                }
-          }
           onPress={showWaitingOrders}
           isLoading={buttonLoading}
           loadingText="Loading"
           className="rounded-full px-6"
         >
-          ""
+          <Icon
+            name="albums-outline"
+            size={24}
+            color={selectedButton === "all" ? "#fff" : "#0ea5e9"}
+          />
         </Button>
         <Button
           style={
@@ -151,23 +144,16 @@ export default function OrdersScreen() {
                   borderColor: "#e2e8f0",
                 }
           }
-          _text={
-            selectedButton === "waiting"
-              ? {
-                  color: "#fff",
-                  fontWeight: "bold",
-                }
-              : {
-                  color: "#fbbf24",
-                  fontWeight: "bold",
-                }
-          }
           onPress={showWaitingOrders}
           isLoading={buttonLoading}
           loadingText="Loading"
           className="rounded-full px-6"
         >
-          Waiting
+          <Icon
+            name="alarm-outline"
+            size={24}
+            color={selectedButton === "waiting" ? "#fff" : "#fbbf24"}
+          />
         </Button>
         <Button
           style={
@@ -179,23 +165,16 @@ export default function OrdersScreen() {
                   borderColor: "#e2e8f0",
                 }
           }
-          _text={
-            selectedButton === "completed"
-              ? {
-                  color: "#fff",
-                  fontWeight: "bold",
-                }
-              : {
-                  color: "#16a34a",
-                  fontWeight: "bold",
-                }
-          }
           onPress={showCompletedOrders}
           isLoading={buttonLoading}
           loadingText="Loading"
           className="rounded-full px-6"
         >
-          Completed
+              <Icon
+            name="checkmark-done-circle-outline"
+            size={24}
+            color={selectedButton === "completed" ? "#fff" : "#16a34a"}
+          />
         </Button>
       </VStack>
       <FlatList
