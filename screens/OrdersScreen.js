@@ -17,7 +17,10 @@ import { useNavigation } from "@react-navigation/native";
 import { supabase_customer } from "../supabase/supabase-customer";
 
 import { t } from "../i18n";
-import { Text } from "react-native";
+
+// const contentText = {
+//   allOrders: t("Orders.AllOrders")
+// }
 
 export default function OrdersScreen() {
   const [filteredOrders, setFilteredOrders] = useState([]);
@@ -136,7 +139,7 @@ export default function OrdersScreen() {
           loadingText="Loading"
           className="rounded-full px-6"
         >
-          All Order
+          ""
         </Button>
         <Button
           style={

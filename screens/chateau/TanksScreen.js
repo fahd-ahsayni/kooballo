@@ -15,7 +15,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { fetchChateau } from "../../redux/chateauSlice";
 
-import Tank from "../../assets/icons/chateau.png";
+import {t} from "../../i18n" 
 
 export default function TanksScreen() {
   const navigation = useNavigation();
@@ -57,7 +57,7 @@ export default function TanksScreen() {
 
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate("edit the tank", { id: chateau.id })}
+        onPress={() => navigation.navigate("edit the tank", { tankID: chateau.id })}
         className="flex-row z-10 border bg-white border-gray-200 p-3 space-x-3 mb-4 rounded-md"
       >
         <View className="relative w-28 h-24">
@@ -141,7 +141,7 @@ export default function TanksScreen() {
           }}
           className="px-6 py-2"
         >
-          Your Chateaus
+          {t("Chateau.Title")}
         </Text>
         <Text
           style={{
@@ -151,7 +151,7 @@ export default function TanksScreen() {
           }}
           className="px-6 py-2 text-gray-500"
         >
-          Scroll to refrech
+          {t("Chateau.MiniTitle")}
         </Text>
       </View>
 

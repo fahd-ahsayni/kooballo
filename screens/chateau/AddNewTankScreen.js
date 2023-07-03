@@ -28,6 +28,8 @@ import { supabase_customer } from "../../supabase/supabase-customer";
 import Colors from "../../constants/Colors";
 import { TouchableOpacity } from "react-native";
 
+import { t } from "../../i18n";
+
 export default function AddNewTankScreen() {
   const [uploading, setUploading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(null);
@@ -48,6 +50,16 @@ export default function AddNewTankScreen() {
 
   const navigation = useNavigation();
   const userID = useSelector((state) => state.profiles?.id);
+
+  const contentText = {
+    PictureLabel: t("CreateChateau.PictureLabel"),
+    EditThisPhoto: t("CreateChateau.EditThisPhoto"),
+    RequiredMessage: t("CreateChateau.RequiredMessage"),
+    ChateauNameError: t("CreateChateau.ChateauNameError"),
+    QuarterError: t("CreateChateau.QuarterError"),
+    LitresError: t("CreateChateau.LitresError"),
+    CityError: t("CreateChateau.CityError")
+  };
 
   useEffect(() => {
     setInputWithError("");
@@ -99,40 +111,40 @@ export default function AddNewTankScreen() {
 
   const validateInputs = () => {
     if (!name) {
-      showError("Chateau name field is required", "name");
+      showError(contentText.ChateauNameError, "name");
       return false;
     }
 
     if (!city) {
-      showError("City field is required", "city");
+      showError(contentText.CityError, "city");
       return false;
     }
 
     if (!quarter) {
-      showError("Quarter field is required", "quarter");
+      showError(contentText.QuarterError, "quarter");
       return false;
     }
 
     if (isNaN(litres) || Number(litres) <= 100) {
-      showError("Litres must be a number greater than 100", "litres");
+      showError(contentText.LitresError, "litres");
       return false;
     }
 
     if (!photo) {
-      showError("Photo of the house is required", "photo");
+      showError(contentText.RequiredMessage, "photo");
       return false;
     }
 
     return true;
   };
 
+  const success = t("CreateChateau.success");
+
   const handleAddChateau = async () => {
-    setButtonText("Please Wait ...");  // Change button text when clicked
     setLoading(true);
 
     if (!validateInputs()) {
       setLoading(false);
-      setButtonText("Add Your Chateau");  // Change back to original text if validation fails
       return;
     }
 
@@ -178,9 +190,9 @@ export default function AddNewTankScreen() {
       Alert.alert("Error", err.message);
     } finally {
       setLoading(false);
-      setButtonText("Add Your Chateau");  // Change back to original text once processing is done
+      setButtonText("Add Your Chateau"); // Change back to original text once processing is done
       setTimeout(() => {
-        navigation.navigate("success", { text: "Chateau update successfully" });
+        navigation.navigate("success", { text: success });
       }, 100);
     }
   };
@@ -263,7 +275,7 @@ export default function AddNewTankScreen() {
               style={{ fontFamily: "poppins-semibold" }}
               className="text-2xl"
             >
-              Please complete all fields to add your Chateau information.
+              {t("CreateChateau.Title")}
             </Text>
             {fetchError && (
               <View className="bg-yellow-100 flex items-center rounded my-4">
@@ -279,7 +291,9 @@ export default function AddNewTankScreen() {
           <Center className="py-8">
             <VStack space={4} width="94%">
               <FormControl isRequired isInvalid={inputWithError == "name"}>
-                <FormControl.Label>Chateau name</FormControl.Label>
+                <FormControl.Label>
+                  {t("CreateChateau.ChateauNameLabel")}
+                </FormControl.Label>
                 <Input
                   className="py-3"
                   placeholder="Home Chateau or work chateau ..."
@@ -291,7 +305,9 @@ export default function AddNewTankScreen() {
               </FormControl>
 
               <VStack space={4}>
-                <FormControl.Label className="-mb-4">City</FormControl.Label>
+                <FormControl.Label className="-mb-4">
+                  {t("CreateChateau.CityLabel")}
+                </FormControl.Label>
                 <Select
                   borderColor={
                     inputWithError == "city" ? "red.500" : "muted.300"
@@ -300,7 +316,7 @@ export default function AddNewTankScreen() {
                   className="py-3"
                   selectedValue={city}
                   accessibilityLabel="Choose City"
-                  placeholder="Choose City"
+                  placeholder="Laayoune or Smara ..."
                   style={{ fontFamily: "poppins-regular" }}
                   _selectedItem={{
                     bg: "#0ea5e9",
@@ -316,10 +332,12 @@ export default function AddNewTankScreen() {
               </VStack>
 
               <FormControl>
-                <FormControl.Label>Street</FormControl.Label>
+                <FormControl.Label>
+                  {t("CreateChateau.StreetLabel")}
+                </FormControl.Label>
                 <Input
                   className="py-3"
-                  placeholder="Enter your street"
+                  placeholder="Iben Roshed ..."
                   keyboardType="default"
                   value={street}
                   style={{ fontFamily: "poppins-regular" }}
@@ -328,7 +346,9 @@ export default function AddNewTankScreen() {
               </FormControl>
 
               <FormControl isRequired isInvalid={inputWithError == "quarter"}>
-                <FormControl.Label>Quarter</FormControl.Label>
+                <FormControl.Label>
+                  {t("CreateChateau.Quarter")}
+                </FormControl.Label>
                 <Input
                   className="py-3"
                   placeholder="Enter your quarter"
@@ -340,10 +360,12 @@ export default function AddNewTankScreen() {
               </FormControl>
 
               <FormControl>
-                <FormControl.Label>House N°</FormControl.Label>
+                <FormControl.Label>
+                  {t("CreateChateau.House")}
+                </FormControl.Label>
                 <Input
                   className="py-3"
-                  placeholder="Enter your house n°"
+                  placeholder="n° 120 or 50 ..."
                   keyboardType="number-pad"
                   style={{ fontFamily: "poppins-regular" }}
                   value={house}
@@ -352,10 +374,12 @@ export default function AddNewTankScreen() {
               </FormControl>
 
               <FormControl isRequired isInvalid={inputWithError == "litres"}>
-                <FormControl.Label>Litres</FormControl.Label>
+                <FormControl.Label>
+                  {t("CreateChateau.Litres")}
+                </FormControl.Label>
                 <Input
                   className="py-3"
-                  placeholder="Enter the number of litres"
+                  placeholder="1000 or 1500 ..."
                   keyboardType="number-pad"
                   style={{ fontFamily: "poppins-regular" }}
                   value={litres}
@@ -366,7 +390,7 @@ export default function AddNewTankScreen() {
               {name && (
                 <FormControl mt={8} isInvalid={inputWithError == "photo"}>
                   <FormControl.Label>
-                    Please take a photo of the house!
+                    {contentText.PictureLabel}
                   </FormControl.Label>
 
                   {!uploading ? (
@@ -388,7 +412,7 @@ export default function AddNewTankScreen() {
                                 className="text-white text-sm mr-2.5"
                                 style={{ fontFamily: "poppins-semibold" }}
                               >
-                                Edit This Photo
+                                {contentText.EditThisPhoto}
                               </Text>
                               <Icon
                                 name="camera-reverse-outline"
@@ -411,7 +435,7 @@ export default function AddNewTankScreen() {
                       )}
                       {inputWithError == "photo" && (
                         <FormControl.ErrorMessage>
-                          Photo of the house is required
+                          {contentText.RequiredMessage}
                         </FormControl.ErrorMessage>
                       )}
                     </>
@@ -447,7 +471,9 @@ export default function AddNewTankScreen() {
                       fontFamily: "poppins-semibold",
                     }}
                   >
-                    {loading ? "Please Wait ..." :"Add Your Chateau"}
+                    {loading
+                      ? t("CreateChateau.PleaseWait")
+                      : t("CreateChateau.AddYourChateauButton")}
                   </Text>
 
                   <View

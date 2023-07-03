@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./forms/LoginScreen";
 import RegisterScreen from "./forms/RegisterScreen";
 import ForgotPasswordScreen from "./forms/ForgoatPassword";
+import NoNet from "../components/NoNet";
 
 const Stack = createNativeStackNavigator();
 

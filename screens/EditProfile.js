@@ -8,6 +8,7 @@ import { TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Colors from "../constants/Colors";
 import { Text } from "react-native";
+import { t } from "../i18n";
 
 import EditProfileImage from "../components/EditeProfileImage";
 
@@ -18,6 +19,7 @@ export default function EditProfile() {
   const [mobile, setMobile] = useState(profileData.mobile);
 
   const photo = useSelector((state) => state.mySlice.profileUrl);
+  const success = t("UpdateProfile.success");
 
   const onSubmit = async () => {
     try {
@@ -26,7 +28,7 @@ export default function EditProfile() {
         .update({ full_name: fullName, mobile, avatar_url: photo })
         .eq("id", profileData.id);
       if (error) throw error;
-      navigation.navigate("success", { text: "Profile Updated Successfylly" });
+      navigation.navigate("success", { text: success });
     } catch (error) {
       console.error("Error updating profile: ", error);
     }
@@ -37,10 +39,12 @@ export default function EditProfile() {
       <Box p={4} borderRadius="xl" w="100%">
         <EditProfileImage id={profileData.id} name={profileData.full_name} />
         <FormControl className="mb-4">
-          <FormControl.Label>Full name</FormControl.Label>
+          <FormControl.Label>
+            {t("UpdateProfile.FullNameLabel")}
+          </FormControl.Label>
           <Input
             className="py-3"
-            placeholder="Full Name"
+            placeholder={t("UpdateProfile.FullNameLabel")}
             keyboardType="default"
             style={{ fontFamily: "poppins-regular" }}
             value={fullName}
@@ -48,10 +52,12 @@ export default function EditProfile() {
           />
         </FormControl>
         <FormControl>
-          <FormControl.Label>Mobile</FormControl.Label>
+          <FormControl.Label>
+            {t("UpdateProfile.MobileLabel")}
+          </FormControl.Label>
           <Input
             className="py-3"
-            placeholder="Mobile"
+            placeholder={t("UpdateProfile.MobileLabel")}
             keyboardType="numeric"
             style={{ fontFamily: "poppins-regular" }}
             value={mobile}
@@ -82,7 +88,7 @@ export default function EditProfile() {
                 fontFamily: "poppins-semibold",
               }}
             >
-              Update
+              {t("UpdateProfile.ButtonUpdate")}
             </Text>
 
             <View

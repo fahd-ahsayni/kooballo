@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
-  Alert,
   SafeAreaView,
   Text,
   Platform,
@@ -17,95 +16,77 @@ import {
   VStack,
   Select,
   CheckIcon,
-  Spinner,
 } from "native-base";
 import Icon from "react-native-vector-icons/Ionicons";
 import { supabase_customer } from "../../supabase/supabase-customer";
 import Colors from "../../constants/Colors";
 import { TouchableOpacity } from "react-native";
+import { t } from "../../i18n";
 
-export default function EditInforamtionsTank() {
-  const [name, setName] = useState("");
-  const [city, setCity] = useState("");
-  const [street, setStreet] = useState("");
-  const [quarter, setQuarter] = useState("");
-  const [house, setHouse] = useState("");
-  const [litres, setLitres] = useState(0);
-  const [photo, setPhoto] = useState("");
-  const [cities, setCities] = useState([]);
-
-
-  const navigation = useNavigation();
+export default function UpdateTankScreen() {
   const route = useRoute();
+  const navigation = useNavigation();
+  const { tankID } = route.params;
 
-  const { id } = route.params;
+  const fetchChateauData = useSelector((state) => state.chateau.entities);
 
-  const chateauData = useSelector((state) => state.chateau.entities);
-  const chateauFiltred = chateauData.filter((chateau) => chateau.id == id);
+  const fetchTankData = fetchChateauData.filter(
+    (item) => item.id === tankID
+  )[0];
 
-  useEffect(() => {
-    if (chateauData && chateauData.length > 0) {
-      setName(chateauFiltred[0].name);
-      setCity(chateauFiltred[0].city);
-      setStreet(chateauFiltred[0].street);
-      setQuarter(chateauFiltred[0].quarter);
-      setHouse(chateauFiltred[0].house.toString());
-      setLitres(chateauFiltred[0].litres.toString());
-      setPhoto(chateauFiltred[0].chateau_profile);
-    }
-  }, [chateauData]);
+  const [name, setName] = useState(fetchTankData ? fetchTankData.name : "");
+  const [street, setStreet] = useState(
+    fetchTankData ? fetchTankData.street : ""
+  );
+  const [quarter, setQuarter] = useState(
+    fetchTankData ? fetchTankData.quarter : ""
+  );
+  const [house, setHouse] = useState(fetchTankData ? fetchTankData.house : "");
+  const [litres, setLitres] = useState(
+    fetchTankData ? fetchTankData.litres : ""
+  );
+  const [city, setCity] = useState(fetchTankData ? fetchTankData.city : "");
+  const [cities, setCities] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [inputWithError, setInputWithError] = useState("");
 
   const fetchCitiesFromDB = useCallback(async () => {
-    try {
-      const { data, error } = await supabase_customer
-        .from("cities")
-        .select("*");
-
-      if (error) {
-        throw error;
-      }
-
-      setCities(data);
-    } catch (error) {
-      console.error("Error fetching cities: ", error.message);
-    }
+    const { data } = await supabase_customer.from("cities").select("*");
+    setCities(data);
   }, []);
 
   useEffect(() => {
     fetchCitiesFromDB();
   }, [fetchCitiesFromDB]);
 
-  const handleUpdateChateau = async () => {
-    try {
-      const updateData = {
-        name,
-        street,
-        quarter,
-        house,
-        litres,
-        city,
-      };
+  useEffect(() => {
+    setInputWithError("");
+  }, [tankID]);
 
-      const { data, error: updateError } = await supabase_customer
-        .from("chateau")
-        .update(updateData)
-        .eq("id", chateauFiltred[0].id);
+  const success = t("UpdateChateau.success");
 
-      if (updateError) {
-        showError("An error occurred while updating your chateau", "");
-      }
+  const handleUpdateTank = useCallback(async () => {
+    setLoading(true);
 
-      if (data) {
-        setFetchError(null);
-        setInputWithError("");
-      }
-    } catch (err) {
-      console.error("Error: ", err.message);
-      Alert.alert("Error", err.message);
-    } finally {
-      navigation.navigate("success", { text: "Chateau add successfully" });
-    }
-  };
+    const updateData = {
+      name: name,
+      street: street,
+      quarter: quarter,
+      house: house,
+      litres: litres,
+      city: city,
+    };
+
+    const { data, error: updateError } = await supabase_customer
+      .from("chateau")
+      .update(updateData)
+      .eq("id", tankID);
+
+    setLoading(false);
+    setTimeout(() => {
+      navigation.navigate("success", { text: success });
+    }, 100);
+  }, [name, street, quarter, house, litres, city, tankID, success]);
 
   return (
     <SafeAreaView className="justify-center flex-1 px-4 pt-12 bg-white">
@@ -136,13 +117,15 @@ export default function EditInforamtionsTank() {
               style={{ fontFamily: "poppins-semibold" }}
               className="text-2xl"
             >
-              Please complete all fields to add your Chateau information.
+              {t("CreateChateau.Title")}
             </Text>
           </View>
           <Center className="py-8">
             <VStack space={4} width="94%">
-              <FormControl>
-                <FormControl.Label>Chateau name</FormControl.Label>
+              <FormControl isRequired isInvalid={inputWithError == "name"}>
+                <FormControl.Label>
+                  {t("CreateChateau.ChateauNameLabel")}
+                </FormControl.Label>
                 <Input
                   className="py-3"
                   placeholder="Home Chateau or work chateau ..."
@@ -154,13 +137,15 @@ export default function EditInforamtionsTank() {
               </FormControl>
 
               <VStack space={4}>
-                <FormControl.Label className="-mb-4">City</FormControl.Label>
+                <FormControl.Label className="-mb-4">
+                  {t("CreateChateau.CityLabel")}
+                </FormControl.Label>
                 <Select
                   w="100%"
                   className="py-3"
                   selectedValue={city}
                   accessibilityLabel="Choose City"
-                  placeholder="Choose City"
+                  placeholder="Laayoune or Smara ..."
                   style={{ fontFamily: "poppins-regular" }}
                   _selectedItem={{
                     bg: "#0ea5e9",
@@ -176,10 +161,12 @@ export default function EditInforamtionsTank() {
               </VStack>
 
               <FormControl>
-                <FormControl.Label>Street</FormControl.Label>
+                <FormControl.Label>
+                  {t("CreateChateau.StreetLabel")}
+                </FormControl.Label>
                 <Input
                   className="py-3"
-                  placeholder="Enter your street"
+                  placeholder="Iben Roshed ..."
                   keyboardType="default"
                   value={street}
                   style={{ fontFamily: "poppins-regular" }}
@@ -187,8 +174,10 @@ export default function EditInforamtionsTank() {
                 />
               </FormControl>
 
-              <FormControl>
-                <FormControl.Label>Quarter</FormControl.Label>
+              <FormControl isRequired isInvalid={inputWithError == "quarter"}>
+                <FormControl.Label>
+                  {t("CreateChateau.Quarter")}
+                </FormControl.Label>
                 <Input
                   className="py-3"
                   placeholder="Enter your quarter"
@@ -200,32 +189,35 @@ export default function EditInforamtionsTank() {
               </FormControl>
 
               <FormControl>
-                <FormControl.Label>House N°</FormControl.Label>
+                <FormControl.Label>
+                  {t("CreateChateau.House")}
+                </FormControl.Label>
                 <Input
                   className="py-3"
-                  placeholder="Enter your house n°"
+                  placeholder="n° 120 or 50 ..."
                   keyboardType="number-pad"
                   style={{ fontFamily: "poppins-regular" }}
-                  value={house}
+                  value={house.toString()}
                   onChangeText={(value) => setHouse(value)}
                 />
               </FormControl>
 
-              <FormControl>
-                <FormControl.Label>Litres</FormControl.Label>
+              <FormControl isRequired isInvalid={inputWithError == "litres"}>
+                <FormControl.Label>
+                  {t("CreateChateau.Litres")}
+                </FormControl.Label>
                 <Input
                   className="py-3"
-                  placeholder="Enter the number of litres"
-                  keyboardType="number-pad"
+                  placeholder="1000 or 1500 ..."
                   style={{ fontFamily: "poppins-regular" }}
-                  value={litres}
+                  value={litres.toString()}
                   onChangeText={(value) => setLitres(value)}
                 />
               </FormControl>
 
               <View className="w-full justify-center items-center mt-8">
                 <TouchableOpacity
-                  onPress={handleUpdateChateau}
+                  onPress={handleUpdateTank}
                   className="w-full"
                   style={{
                     backgroundColor: Colors.primary,
@@ -247,7 +239,9 @@ export default function EditInforamtionsTank() {
                       fontFamily: "poppins-semibold",
                     }}
                   >
-                    Update Your Chateau
+                    {loading
+                      ? t("CreateChateau.PleaseWait")
+                      : t("UpdateChateau.UpdateButton")}
                   </Text>
 
                   <View

@@ -8,6 +8,8 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Colors from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 
+import {t} from '../i18n'
+
 export default function ShareScreen() {
   const navigation = useNavigation();
   const [messageData, setMessageData] = useState([]);
@@ -62,15 +64,12 @@ export default function ShareScreen() {
               style={{ fontFamily: "poppins-semibold", color: Colors.text }}
               className="text-lg"
             >
-              The First Water Delivery App in Laayoune
+              {t("Share.Title")}
             </Text>
             <Text
               style={{ fontFamily: "poppins-regular", color: Colors.darkText }}
             >
-              Experience the convenience of Kooballo, the first water delivery
-              app in the city of Laayoune. With Ma3andek Maatsallo, you no
-              longer have to worry about running out of water or going through
-              the hassle of purchasing and carrying heavy water bottles.
+              {t("Share.Text")}
             </Text>
 
             <View className="justify-center mt-8">
@@ -97,7 +96,7 @@ export default function ShareScreen() {
                     fontFamily: "poppins-semibold",
                   }}
                 >
-                  Let's Share Kooballo
+                  {t("Share.Button")}
                 </Text>
 
                 <View

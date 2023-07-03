@@ -12,7 +12,6 @@ import {
   Button,
   Box,
   FormControl,
-
 } from "native-base";
 
 import Spacing from "../../constants/Spacing";
@@ -49,6 +48,7 @@ const LoginScreen = () => {
   const handleClick = () => setShow(!show);
 
   const navigation = useNavigation();
+
 
   return (
     <SafeAreaView className="bg-white flex-1 justify-center">
@@ -99,7 +99,7 @@ const LoginScreen = () => {
                   <FormControl.Label>{t("Login.emailLabel")}</FormControl.Label>
                   <Input
                     type="text"
-                    placeholder={t("Login.inputEmailText")}
+                    placeholder="jhon@email.com"
                     autoCapitalize="none"
                     borderWidth={1}
                     style={{
@@ -133,7 +133,7 @@ const LoginScreen = () => {
                   </FormControl.Label>
                   <Input
                     type={show ? "text" : "password"}
-                    placeholder={t("Login.inputPasswordText")}
+                    placeholder="*********"
                     borderColor={signInError ? "danger.600" : "muted.400"}
                     className="py-2.5"
                     borderWidth={1}

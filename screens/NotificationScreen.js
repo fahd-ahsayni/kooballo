@@ -1,12 +1,20 @@
 import { Spinner } from "native-base";
 import { useEffect, useState } from "react";
-import { View, SafeAreaView, Text, FlatList, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import CardNotification from "../components/CardNotification";
 import { supabase_customer } from "../supabase/supabase-customer";
 import Colors from "../constants/Colors";
 import NotificationBackground from "../assets/icons/notification.png";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
+import { t } from "../i18n";
 
 export default function NotificationScreen() {
   const navigation = useNavigation();
@@ -46,9 +54,10 @@ export default function NotificationScreen() {
     <CardNotification {...notification} key={notification.id} />
   );
 
+
   return (
     <SafeAreaView className="pt-16 flex-1 items-center w-full bg-gray-50">
-       <View className="h-20 relative w-full">
+      <View className="h-20 relative w-full">
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           className="absolute left-4"
@@ -82,7 +91,7 @@ export default function NotificationScreen() {
           }}
           className="px-6"
         >
-          Notifications
+         
         </Text>
       </View>
 

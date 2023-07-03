@@ -8,16 +8,7 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import {
-  Button,
-  Center,
-  VStack,
-  Select,
-  CheckIcon,
-  Text,
-  Modal,
-  Box,
-} from "native-base";
+import { Center, VStack, Select, CheckIcon, Text, Box } from "native-base";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import Colors from "../constants/Colors";
@@ -25,8 +16,7 @@ import { fetchChateau } from "../redux/chateauSlice";
 import { calculatePrice, generateOrderKey } from "../functions";
 import { supabase_customer } from "../supabase/supabase-customer";
 
-const CREATE_ORDER_TEXT = "Create Your Order";
-const PLEASE_WAIT_TEXT = "Please Wait ...";
+import { t } from "../i18n";
 
 export default function CreateNewOrder() {
   const dispatch = useDispatch();
@@ -38,6 +28,8 @@ export default function CreateNewOrder() {
 
   const profileData = useSelector((state) => state.profiles);
   const chateauData = useSelector((state) => state.chateau.entities);
+
+  const success = t("CreateOrder.success");
 
   useEffect(() => {
     if (profileData?.id) {
@@ -73,7 +65,7 @@ export default function CreateNewOrder() {
       const orderPrice = calculatePrice(filterData.litres);
 
       if (orderPrice > currentSolde) {
-        navigation.navigate("cancel order")
+        navigation.navigate("cancel order");
         setLoading(false);
         return;
       } else {
@@ -100,7 +92,7 @@ export default function CreateNewOrder() {
 
         await supabase_customer.from("orders").insert([insertData]);
 
-        navigation.navigate("success", { text: "Order Created Successfuly" });
+        navigation.navigate("success", { text: success });
       }
     } catch (error) {
       alert(`An error occurred: ${error}`);
@@ -136,7 +128,7 @@ export default function CreateNewOrder() {
       <KeyboardAvoidingView behavior={behavior} style={{ flex: 1 }}>
         <View className="mb-8 px-6">
           <Text className="text-2xl" style={{ fontFamily: "poppins-semibold" }}>
-            Just choose your chateau to complete the order.
+            {t("CreateOrder.Title")}
           </Text>
         </View>
         <Center>
@@ -148,12 +140,7 @@ export default function CreateNewOrder() {
                   selectedValue={chateauId}
                   w="100%"
                   style={{ fontFamily: "poppins-regular" }}
-                  accessibilityLabel="Choose Chateau"
-                  placeholder={
-                    chateauData
-                      ? "Choose a chateau"
-                      : "please create chateau first"
-                  }
+                  placeholder={t("CreateOrder.InputText")}
                   _selectedItem={{
                     bg: "#0ea5e9",
                     endIcon: <CheckIcon color="#fff" size="5" />,
@@ -199,7 +186,9 @@ export default function CreateNewOrder() {
                     fontFamily: "poppins-semibold",
                   }}
                 >
-                  {loading ? PLEASE_WAIT_TEXT : CREATE_ORDER_TEXT}
+                  {loading
+                    ? t("CreateChateau.PleaseWait")
+                    : t("CreateOrder.ButtonCreateOrder")}
                 </Text>
 
                 <View
@@ -228,7 +217,7 @@ export default function CreateNewOrder() {
               textAlign="center"
               onPress={() => navigation.navigate("add new tank")}
             >
-              Click To Create New Chateau ?
+              {t("CreateOrder.ButtonCreateChateau")}
             </Text>
           </VStack>
         </Center>

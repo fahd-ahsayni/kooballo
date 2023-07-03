@@ -14,12 +14,19 @@ import { useFormValidationState, useInputState } from "../../hooks";
 export default function RegisterScreen() {
   const [email, handleEmailChange] = useInputState("");
   const [password, handlePasswordChange] = useInputState("");
-  const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
-  const { emailError, passwordError, validateForm } = useFormValidationState();
+  const contentText = {
+    e: t("Login.EmailError"),
+    p: t("Login.PasswordError"),
+  };
+
+  const { emailError, passwordError, validateForm } = useFormValidationState(
+    contentText.e,
+    contentText.p
+  );
 
   const navigation = useNavigation();
 
@@ -142,7 +149,12 @@ export default function RegisterScreen() {
                 }
               />
               {emailError ? (
-                <Text className="text-xs mt-2.5" style={{ color: "red", fontFamily: "poppins-regular" }}>{emailError}</Text>
+                <Text
+                  className="text-xs mt-2.5"
+                  style={{ color: "red", fontFamily: "poppins-regular" }}
+                >
+                  {emailError}
+                </Text>
               ) : null}
             </FormControl>
             <FormControl>
@@ -192,7 +204,12 @@ export default function RegisterScreen() {
                 }
               />
               {passwordError ? (
-                <Text className="text-xs mt-2.5" style={{ color: "red", fontFamily: "poppins-regular" }}>{passwordError}</Text>
+                <Text
+                  className="text-xs mt-2.5"
+                  style={{ color: "red", fontFamily: "poppins-regular" }}
+                >
+                  {passwordError}
+                </Text>
               ) : null}
             </FormControl>
 

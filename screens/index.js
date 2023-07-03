@@ -17,6 +17,9 @@ import QrScanner from "./solde/QrScanner";
 import AddSolde from "./solde/AddSolde";
 import WithCash from "./solde/WithCash";
 
+import NoNet from "../components/NoNet"
+
+
 const Stack = createNativeStackNavigator();
 
 export default function FormStack() {

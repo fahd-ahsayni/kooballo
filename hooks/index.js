@@ -1,5 +1,5 @@
-import { t } from "../i18n";
 import React from "react";
+import { useState } from "react";
 
 export const useInputState = (initialValue) => {
   const [value, setValue] = React.useState(initialValue);
@@ -7,7 +7,7 @@ export const useInputState = (initialValue) => {
   return [value, handleChange];
 };
 
-export const useFormValidationState = () => {
+export const useFormValidationState = (e, p) => {
   const [emailError, setEmailError] = React.useState("");
   const [passwordError, setPasswordError] = React.useState("");
 
@@ -15,14 +15,14 @@ export const useFormValidationState = () => {
     let isValid = true;
 
     if (email.trim() === "" || !email.includes("@")) {
-      setEmailError("Email is required and should include '@'");
+      setEmailError(e);
       isValid = false;
     } else {
       setEmailError("");
     }
 
     if (password.trim() === "" || password.length < 8) {
-      setPasswordError("Password is required and should be at least 8 characters");
+      setPasswordError(p);
       isValid = false;
     } else {
       setPasswordError("");
@@ -32,4 +32,10 @@ export const useFormValidationState = () => {
   };
 
   return { emailError, passwordError, validateForm };
+};
+
+export const useInputUpdateState = (initialValue) => {
+  const [value, setValue] = useState(initialValue);
+  const onChangeText = (text) => setValue(text);
+  return { value, onChangeText };
 };

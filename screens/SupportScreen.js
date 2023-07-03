@@ -6,6 +6,7 @@ import Colors from "../constants/Colors";
 
 import Clock from "../assets/icons/clock.png";
 import { useNavigation } from "@react-navigation/native";
+import { t } from "../i18n";
 
 export default function SupportScreen() {
   const navigation = useNavigation();
@@ -37,8 +38,7 @@ export default function SupportScreen() {
           }}
           className="mb-8 text-slate-600 text-center text-xl"
         >
-          For any information or reclamation please contact the Kooballo
-          customer relations center at.
+          {t("Support.Title")}
         </Text>
         <Image source={Clock} resizeMode="cover" className="h-20 w-20" />
         <View className="border mt-8 rounded border-sky-600 py-2.5 w-full">
@@ -48,7 +48,7 @@ export default function SupportScreen() {
             }}
             className="font-semibold text-xl text-center mb-2.5"
           >
-            Monday - saturday
+            {t("Support.Monday")} - {t("Support.Saturday")}
           </Text>
           <Text
             style={{
@@ -72,7 +72,7 @@ export default function SupportScreen() {
             }}
             className="text-white text-center uppercase"
           >
-            Call Us
+            {t("Support.CallUs")}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -88,7 +88,7 @@ export default function SupportScreen() {
             }}
             className="text-white text-center uppercase"
           >
-            Whatsapp
+            {t("Support.Whatsapp")}
           </Text>
         </TouchableOpacity>
       </View>

@@ -6,6 +6,7 @@ import { SafeAreaView, TouchableOpacity, Dimensions } from "react-native";
 import Spacing from "../constants/Spacing";
 import { useNavigation } from "@react-navigation/native";
 import QrCode from "../components/QrCode";
+import { t } from "../i18n";
 
 const { height } = Dimensions.get("window");
 
@@ -47,15 +48,15 @@ export default function ProfileScreen() {
           <View className="bg-white border border-gray-200 rounded-lg flex-row w-1/2 py-3.5 items-center justify-around px-3">
             <Icon name="wallet" size={24} color={Colors.primary} />
             <Text fontFamily="poppins-semibold" className="text-lg">
-              {profileData.solde} Dhs
+              {profileData.solde} {t("Home.DH")}
             </Text>
           </View>
         </View>
 
         <Box p={4} borderRadius="xl" w="100%">
-          <BoxInfo title="Full Name" text={profileData?.full_name} />
+          <BoxInfo title={t("Profile.FullName")} text={profileData?.full_name} />
           <View className="h-[1px] w-full bg-gray-200" />
-          <BoxInfo title="Mobile" text={profileData?.mobile} />
+          <BoxInfo title={t("Profile.Mobile")} text={profileData?.mobile} />
         </Box>
 
         <View
@@ -74,7 +75,7 @@ export default function ProfileScreen() {
             }}
             className="px-6 mt-2.5"
           >
-            Your Qr Code
+            {t("Profile.QrTitle")}
           </Text>
         </View>
 
@@ -111,7 +112,7 @@ export default function ProfileScreen() {
                 fontFamily: "poppins-semibold",
               }}
             >
-              Edit Your Information ?
+              {t("Profile.ButtonEditProfile")}
             </Text>
 
             <View

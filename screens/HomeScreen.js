@@ -24,6 +24,7 @@ import { setProfileUrl } from "../redux/mySlice";
 
 import Qr from "../assets/icons/qr.png";
 import NotificationIcon from "../assets/icons/notification-bell.png";
+import NetInfo from "@react-native-community/netinfo";
 
 import { t } from "../i18n";
 

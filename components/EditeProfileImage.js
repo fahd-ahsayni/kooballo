@@ -15,6 +15,8 @@ import Colors from "../constants/Colors";
 import { supabase_customer } from "../supabase/supabase-customer";
 import { setProfileUrl } from "../redux/mySlice";
 
+import { t } from "../i18n";
+
 const avatarSize = Dimensions.get("window").height / 5;
 
 const styles = StyleSheet.create({
@@ -39,9 +41,8 @@ const styles = StyleSheet.create({
 export default function EditProfileImage({ id, name }) {
   const [uploading, setUploading] = useState(false);
   const profileUrl = useSelector((state) => state.mySlice.profileUrl);
-  const fallbackImageUrl = useSelector(state => state.profiles.avatar_url)
+  const fallbackImageUrl = useSelector((state) => state.profiles.avatar_url);
   const dispatch = useDispatch();
-
 
   const uploadAvatar = useCallback(
     async (photo) => {
@@ -121,7 +122,7 @@ export default function EditProfileImage({ id, name }) {
           className="text-sky-500 ml-2.5"
           style={{ fontFamily: "poppins-regular" }}
         >
-          Click to Edit your profile picture
+          {t("UpdateProfile.EditPictureText")}
         </Text>
       </View>
     </View>
