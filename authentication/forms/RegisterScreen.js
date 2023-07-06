@@ -56,7 +56,7 @@ export default function RegisterScreen() {
       setMessage("");
 
       try {
-        const { user, error } = await supabase_customer.auth.signUp({
+        const { error } = await supabase_customer.auth.signUp({
           email,
           password,
         });
@@ -76,7 +76,6 @@ export default function RegisterScreen() {
 
   const handleError = (error) => {
     setMessage(error.message);
-    // Additional error handling can go here (logging, etc.)
   };
 
   const handleClick = () => setShow(!show);

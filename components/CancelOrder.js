@@ -7,26 +7,26 @@ import {
 } from "react-native";
 import Cancel from "../assets/icons/cross.png";
 import { useNavigation } from "@react-navigation/native";
-
+import { t } from "../i18n";
 export default function CancelOrder() {
   const navigation = useNavigation();
   return (
     <SafeAreaView className="flex-1 justify-center items-center">
       <Image source={Cancel} resizeMode="cover" className="w-16 h-16 mb-8" />
       <Text
-        className="text-3xl text-rose-600"
+        className="text-3xl text-center text-rose-600"
         style={{ fontFamily: "poppins-bold" }}
       >
-        Insufficient solde
+        {t("CancelOrder.InsufficientSolde")}
       </Text>
 
       <Text
-        className="text-lg text-gray-600"
+        className="text-lg text-center text-gray-600"
         style={{ fontFamily: "poppins-bold" }}
       >
-        Please recharge your solde.
+        {t("CancelOrder.Message")}
       </Text>
-      
+
       <View className="w-full px-12">
         <TouchableOpacity
           onPress={() => navigation.navigate("solde")}
@@ -36,7 +36,7 @@ export default function CancelOrder() {
             className="text-white py-3"
             style={{ fontFamily: "poppins-semibold" }}
           >
-            Recharge Your Solde
+            {t("CancelOrder.ButtonRecharge")}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -47,7 +47,7 @@ export default function CancelOrder() {
             className="text-gray-700 py-3"
             style={{ fontFamily: "poppins-semibold" }}
           >
-            Cancel
+            {t("CancelOrder.ButtonCancel")}
           </Text>
         </TouchableOpacity>
       </View>

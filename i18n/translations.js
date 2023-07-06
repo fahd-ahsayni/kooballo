@@ -6,7 +6,7 @@ export const translations = {
     },
     Login: {
       title: "Log In Here",
-      subtitle: "Simplifying Your Water Storage Solutions",
+      subtitle: "Simplifying Your Water Filling Solutions",
       emailLabel: "Email",
       inputEmailText: "Enter Your Email Address",
       passwordLabel: "Password",
@@ -34,14 +34,14 @@ export const translations = {
       buttonSignUp: "Sign Up",
       AlreadyHaveAnAccount: "Already Have an Account?",
       buttonSignIn: "Log In",
-      ErrorMessage: "Your account creation has failed"
+      ErrorMessage: "Your account creation has failed",
     },
     Home: {
-      WelcomeToKooballo: "Kooballo Kooballo Ma3andek Matssallo",
+      WelcomeToKooballo: "Kooballo Ma3andek Matssallo",
       Menu: "Menu",
-      Solde: "Blance",
+      Solde: "Balance",
       DH: "Dhs",
-      Chateau: "Chateaus",
+      Chateau: "Tanks",
       Orders: "Orders",
       LogOut: "Log Out",
       Support: "Support",
@@ -55,17 +55,17 @@ export const translations = {
       FullName: "Full Name",
       Mobile: "Mobile",
       QrTitle: "Your QR Code",
-      ButtonEditProfile: "Edit Your Information",
+      ButtonEditProfile: "Edit Your Informations",
     },
     UpdateProfile: {
       EditPictureText: "Click to Edit Your Profile Picture",
       FullNameLabel: "Full Name",
       MobileLabel: "Mobile",
       ButtonUpdate: "Update",
-      success: "Your Profile Information Updated Successfully",
+      success: "Your Profile Informations Updated Successfully",
     },
     Chateau: {
-      Title: "Your Chateaus",
+      Title: "Your Tanks",
       MiniTitle: "Scroll to Refresh",
     },
     Orders: {
@@ -81,7 +81,7 @@ export const translations = {
       ByCredit: "By Credit Card",
     },
     ByCash: {
-      Title: "Scan Your QR Code To Recharge Your Balance",
+      Title: "Scan Your QR Code On Our Credit Partner To Recharge Your Balance",
       success: "Balance Added to Your Wallet Successfully",
     },
     Support: {
@@ -98,34 +98,41 @@ export const translations = {
       Button: "Let's Share Kooballo",
     },
     CreateOrder: {
-      Title: "Just Choose a Chateau to Complete the Order",
-      InputText: "Choose a Chateau",
+      Title: "Just Choose a Tank to Complete the Order",
+      InputText: "Choose a Tank",
       ButtonCreateOrder: "Create Your Order",
-      ButtonCreateChateau: "Create New Chateau",
+      ButtonCreateChateau: "Create New Tank",
       success: "Order Created Successfully",
     },
     CreateChateau: {
-      Title: "Please Complete All Fields to Add Your Chateau Information",
-      ChateauNameLabel: "Chateau Name",
+      Title: "Please Complete All Fields to Add Your Tank Informations",
+      ChateauNameLabel: "Tank Name",
       CityLabel: "City",
       StreetLabel: "Street",
       Quarter: "Quarter",
       House: "House No.",
-      Litres: "Litres",
-      ChateauNameError: "Chateau name field is required",
+      Litres: "Liters",
+      ChateauNameError: "Tank name field is required",
       QuarterError: "Quarter field is required",
       CityError: "City field is required",
-      LitresError: "Litres must be a number greater than 100",
-      PictureLabel: "Please Take a Picture of the House!",
+      LitresError: "Liters must be a number greater than 100",
+      PictureLabel:
+        "Please Take a Picture of the House so Driver can recognize it!",
       EditThisPhoto: "Edit This Photo",
-      AddYourChateauButton: "Add Your Chateau",
+      AddYourChateauButton: "Add Your Tank",
       RequiredMessage: "A home picture is required",
       PleaseWait: "Please Wait ...",
-      success: "Chateau has been added successfully",
+      success: "Tank has been added successfully",
     },
     UpdateChateau: {
-      success: "Chateau updated successfully",
-      UpdateButton: "Update Chateau",
+      success: "Tank updated successfully",
+      UpdateButton: "Update Tank",
+    },
+    CancelOrder: {
+      InsufficientSolde: "Your balance is insufficient",
+      Message: "Please recharge your balance",
+      ButtonRecharge: "Recharge",
+      ButtonCancel: "Cancel",
     },
   },
 
@@ -164,7 +171,7 @@ export const translations = {
       buttonSignUp: "سجل حسابك الآن",
       AlreadyHaveAnAccount: "هل لديك حساب بالفعل؟",
       buttonSignIn: "تسجيل الدخول",
-      ErrorMessage: "لقد تعذر انشاء حسابك"
+      ErrorMessage: "لقد تعذر انشاء حسابك",
     },
     Home: {
       WelcomeToKooballo: "كوبالو معندك متسالو",
@@ -247,7 +254,7 @@ export const translations = {
       QuarterError: "حقل الحي مطلوب",
       CityError: "حقل المدينة مطلوب",
       LitresError: "يجب أن يكون عدد الليترات أكبر من 100",
-      PictureLabel: "الرجاء التقاط صورة للمنزل!",
+      PictureLabel: "الرجاء التقاط صورة للمنزل! لتسهيل الامور على السائق",
       EditThisPhoto: "تعديل هذه الصورة",
       RequiredMessage: "صورة المنزل ضرورية",
       PleaseWait: "الرجاء الانتظار ",
@@ -258,12 +265,18 @@ export const translations = {
       success: "تم التحديث بنجاح",
       UpdateButton: "تعديل الان",
     },
+    CancelOrder: {
+      InsufficientSolde: "رصيدكم غير كافي",
+      Message: "المرجو تعبئة رصيدكم",
+      ButtonRecharge: "تعبئة الرصيد",
+      ButtonCancel: "الغاء",
+    },
   },
 
   fr: {
     Welcome: {
-      title: "Remplissez facilement le réservoir d'eau avec Kooballo",
-      button: "Explorer maintenant",
+      title: "Remplissez facilement votre chateau d'eau avec Kooballo",
+      button: "Explorez maintenant",
     },
     Login: {
       title: "Connectez-vous ici",
@@ -297,14 +310,14 @@ export const translations = {
       buttonSignUp: "S'inscrire",
       AlreadyHaveAnAccount: "Vous avez déjà un compte?",
       buttonSignIn: "Se connecter",
-      ErrorMessage: "La création de votre compte a échoué"
+      ErrorMessage: "La création de votre compte a échoué",
     },
     Home: {
       WelcomeToKooballo: "Kooballo Ma3andek Matssallo",
       Menu: "Menu",
       Solde: "Solde",
       DH: "Dhs",
-      Chateau: "Chateaus",
+      Chateau: "Chateaux",
       Orders: "Commandes",
       Solde: "Solde",
       LogOut: "Se déconnecter",
@@ -345,7 +358,8 @@ export const translations = {
       ByCredit: "Par crédit",
     },
     ByCash: {
-      Title: "Scannez votre code QR pour recharger votre solde",
+      Title:
+        "Scannez votre code QR chez notre partnernaire le plus proche pour recharger votre solde",
       success: "Le solde a été ajouté à votre portefeuille avec succès",
     },
     Support: {
@@ -383,7 +397,8 @@ export const translations = {
       LitresError: "Les litres doivent être un nombre supérieur à 100",
       RequiredMessage: "Une photo de la maison est nécessaire",
       PleaseWait: "Veuillez patienter",
-      PictureLabel: "Veuillez prendre une photo de la maison!",
+      PictureLabel:
+        "Veuillez prendre une photo de la maison afin que le livreur puisse la reconnaitre!",
       EditThisPhoto: "Modifier cette photo",
       AddYourChateauButton: "Ajoutez votre chateau",
       success: "Le chateau a été ajouté avec succès.",
@@ -391,6 +406,12 @@ export const translations = {
     UpdateChateau: {
       success: "chateau mis à jour avec succès",
       UpdateButton: "Modifier le chateau",
+    },
+    CancelOrder: {
+      InsufficientSolde: "Votre solde est insuffisant",
+      Message: "Veuillez recharger votre solde",
+      ButtonRecharge: "Recharger",
+      ButtonCancel: "Annuler",
     },
   },
 };
